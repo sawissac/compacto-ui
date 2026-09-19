@@ -1,7 +1,7 @@
 {
   "name": "compacto-ui-workspace",
   "version": "0.0.0",
-  "private": true,
+  "private": "false",
   "type": "module",
   "engines": {
     "node": ">=20.9"
