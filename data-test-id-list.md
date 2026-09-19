@@ -1,8 +1,8 @@
 # data-testid registry
 
-Not published — this file documents the contract, it is not shipped in the
-package `files` list. Each consuming app keeps its own registry for the ids it
-chooses at its call sites.
+Not copied — this file documents the contract, it is not one of the files a
+component's registry item copies into a consumer. Each consuming app keeps
+its own registry for the ids it chooses at its call sites.
 
 ## Library primitives — forwarding contract
 
@@ -49,6 +49,6 @@ or put the test id on a wrapper element you control. The behaviour is pinned by
 a test in `tests/contract.test.tsx`, so if a future version of the library stops
 doing it we will find out from a failing test rather than from this paragraph.
 
-## Docs app
+## Docs gallery
 
-_(ids used by `apps/docs` go here as the gallery is built)_
+_(ids used by the docs gallery, `src/app` and friends, go here as it is built)_

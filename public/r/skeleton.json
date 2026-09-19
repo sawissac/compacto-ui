@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "Placeholder block shown while content loads. Server-safe.",
+  "dependencies": [],
+  "registryDependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/skeleton.tsx",
+      "type": "registry:ui",
+      "content": "import { cn } from \"@/lib/cn\";\n\n/**\n * Placeholder block shown while content loads: a rounded, tinted block with no\n * border, standing in for the hairline-bordered surfaces around it.\n *\n * Renders no text and is `aria-hidden`, so a screen reader hears the loading\n * state from whatever live region the caller owns rather than from a wall of\n * empty boxes. Size it with `className` — it has no intrinsic dimensions.\n *\n * Server-safe: no `\"use client\"` directive, so a Server Component can render a\n * loading shell without pulling a client boundary in with it.\n *\n * @param props.className - Extra classes merged onto the block; this is how\n *   you give it a size (`h-4 w-32`) and, if needed, a different radius.\n *\n * @example\n * ```tsx\n * <div className=\"flex flex-col gap-2\">\n *   <Skeleton className=\"h-4 w-48\" />\n *   <Skeleton className=\"h-4 w-32\" />\n * </div>\n * ```\n */\nfunction Skeleton({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      aria-hidden\n      className={cn(\"animate-pulse rounded-md bg-app-hover\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Skeleton };\n"
+    }
+  ]
+}

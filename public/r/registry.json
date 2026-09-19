@@ -1,0 +1,133 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "compacto-ui",
+  "homepage": "https://github.com/sawissac/compacto-ui",
+  "items": [
+    {
+      "name": "cn",
+      "type": "registry:lib",
+      "title": "cn",
+      "description": "clsx + tailwind-merge class combiner. Every primitive in this library calls it with the caller's className last."
+    },
+    {
+      "name": "ui-styles",
+      "type": "registry:lib",
+      "title": "ui-styles",
+      "description": "Shared class recipes (section labels, icon controls, text fields) used by input and sidebar."
+    },
+    {
+      "name": "color-themes",
+      "type": "registry:lib",
+      "title": "color-themes",
+      "description": "Ten complete --app-* palettes plus appThemeCssVars() to apply one at runtime."
+    },
+    {
+      "name": "styles",
+      "type": "registry:file",
+      "title": "Tokens & base styles",
+      "description": "--app-* token definitions, theme palette wiring and base keyframes. Install once per app; every component below depends on these variables existing."
+    },
+    {
+      "name": "compat-shadcn",
+      "type": "registry:file",
+      "title": "shadcn token compat layer",
+      "description": "Optional bridge that maps shadcn's semantic tokens (bg-primary, border-border, ...) onto --app-*, for apps mid-migration off shadcn. Scheduled for deletion in v2 — do not add new dependents."
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Flat button geometry: transparent 1px rest state, no elevation, cva variants for size and intent."
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Segmented group of buttons sharing one boundary, divided by a Separator."
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Month-grid calendar over react-day-picker, restyled for the flat design system."
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Filterable command list over cmdk; CommandDialog wraps it in a command-palette overlay."
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Dialog root over radix-ui, with a close Button wired into DialogContent."
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Menu root over radix-ui: trigger, content, items, checkbox/radio items, sub-menus."
+    },
+    {
+      "name": "error-boundary",
+      "type": "registry:ui",
+      "title": "Error Boundary",
+      "description": "Class-based error boundary with a flat fallback UI and reset control. Server-safe."
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text field with optional leading icon and clear button, built on ui-styles' field recipe."
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Popover root over radix-ui: trigger, content, anchor."
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Row or column of resizable panels over react-resizable-panels."
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Select root over radix-ui: trigger, content, groups, items, scroll buttons."
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Thin rule that divides content, either horizontally or vertically."
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Collapsible app rail/sidebar shell with its own class recipes via ui-styles."
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Placeholder block shown while content loads. Server-safe."
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabs root over radix-ui: list, trigger, content."
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Tooltip provider/root over radix-ui, with shared open/close timing."
+    }
+  ]
+}

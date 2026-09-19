@@ -1,0 +1,238 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "compacto-ui",
+  "homepage": "https://github.com/sawissac/compacto-ui",
+  "description": "Flat, token-driven React primitives shared by waux-ai-studio and bulky-api. Copy-in components, not an npm install — see AI-REFERENCE.md.",
+  "items": [
+    {
+      "name": "cn",
+      "type": "registry:lib",
+      "title": "cn",
+      "description": "clsx + tailwind-merge class combiner. Every primitive in this library calls it with the caller's className last.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        { "source": "src/lib/cn.ts", "target": "lib/cn.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "ui-styles",
+      "type": "registry:lib",
+      "title": "ui-styles",
+      "description": "Shared class recipes (section labels, icon controls, text fields) used by input and sidebar.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/lib/ui-styles.ts", "target": "lib/ui-styles.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "color-themes",
+      "type": "registry:lib",
+      "title": "color-themes",
+      "description": "Ten complete --app-* palettes plus appThemeCssVars() to apply one at runtime.",
+      "dependencies": [],
+      "files": [
+        { "source": "src/lib/color-themes.ts", "target": "lib/color-themes.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "styles",
+      "type": "registry:file",
+      "title": "Tokens & base styles",
+      "description": "--app-* token definitions, theme palette wiring and base keyframes. Install once per app; every component below depends on these variables existing.",
+      "dependencies": [],
+      "files": [
+        { "source": "src/styles/tokens.css", "target": "styles/compacto/tokens.css", "type": "registry:file" },
+        { "source": "src/styles/theme.css", "target": "styles/compacto/theme.css", "type": "registry:file" },
+        { "source": "src/styles/texture.css", "target": "styles/compacto/texture.css", "type": "registry:file" },
+        { "source": "src/styles/index.css", "target": "styles/compacto/index.css", "type": "registry:file" }
+      ]
+    },
+    {
+      "name": "compat-shadcn",
+      "type": "registry:file",
+      "title": "shadcn token compat layer",
+      "description": "Optional bridge that maps shadcn's semantic tokens (bg-primary, border-border, ...) onto --app-*, for apps mid-migration off shadcn. Scheduled for deletion in v2 — do not add new dependents.",
+      "dependencies": [],
+      "files": [
+        { "source": "src/styles/compat-shadcn.css", "target": "styles/compacto/compat-shadcn.css", "type": "registry:file" }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Flat button geometry: transparent 1px rest state, no elevation, cva variants for size and intent.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/button.tsx", "target": "components/ui/button.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Segmented group of buttons sharing one boundary, divided by a Separator.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["cn", "separator"],
+      "files": [
+        { "source": "src/components/ui/button-group.tsx", "target": "components/ui/button-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Month-grid calendar over react-day-picker, restyled for the flat design system.",
+      "dependencies": ["react-day-picker", "date-fns", "lucide-react"],
+      "registryDependencies": ["cn", "button"],
+      "files": [
+        { "source": "src/components/ui/calendar.tsx", "target": "components/ui/calendar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Filterable command list over cmdk; CommandDialog wraps it in a command-palette overlay.",
+      "dependencies": ["cmdk", "lucide-react"],
+      "registryDependencies": ["cn", "dialog"],
+      "files": [
+        { "source": "src/components/ui/command.tsx", "target": "components/ui/command.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Dialog root over radix-ui, with a close Button wired into DialogContent.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["cn", "button"],
+      "files": [
+        { "source": "src/components/ui/dialog.tsx", "target": "components/ui/dialog.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Menu root over radix-ui: trigger, content, items, checkbox/radio items, sub-menus.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/dropdown-menu.tsx", "target": "components/ui/dropdown-menu.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "error-boundary",
+      "type": "registry:ui",
+      "title": "Error Boundary",
+      "description": "Class-based error boundary with a flat fallback UI and reset control. Server-safe.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/error-boundary.tsx", "target": "components/ui/error-boundary.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text field with optional leading icon and clear button, built on ui-styles' field recipe.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn", "ui-styles"],
+      "files": [
+        { "source": "src/components/ui/input.tsx", "target": "components/ui/input.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Popover root over radix-ui: trigger, content, anchor.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/popover.tsx", "target": "components/ui/popover.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Row or column of resizable panels over react-resizable-panels.",
+      "dependencies": ["react-resizable-panels"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/resizable.tsx", "target": "components/ui/resizable.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Select root over radix-ui: trigger, content, groups, items, scroll buttons.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/select.tsx", "target": "components/ui/select.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Thin rule that divides content, either horizontally or vertically.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/separator.tsx", "target": "components/ui/separator.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Collapsible app rail/sidebar shell with its own class recipes via ui-styles.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["cn", "ui-styles"],
+      "files": [
+        { "source": "src/components/ui/sidebar.tsx", "target": "components/ui/sidebar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Placeholder block shown while content loads. Server-safe.",
+      "dependencies": [],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/skeleton.tsx", "target": "components/ui/skeleton.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabs root over radix-ui: list, trigger, content.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/tabs.tsx", "target": "components/ui/tabs.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Tooltip provider/root over radix-ui, with shared open/close timing.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["cn"],
+      "files": [
+        { "source": "src/components/ui/tooltip.tsx", "target": "components/ui/tooltip.tsx", "type": "registry:ui" }
+      ]
+    }
+  ]
+}

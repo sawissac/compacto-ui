@@ -7,20 +7,17 @@ import unusedImports from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
 
 /**
- * Flat ESLint config for the compacto-ui workspace (ESLint v9+).
+ * Flat ESLint config for compacto-ui (ESLint v9+): a single Next.js app whose
+ * `src/components/ui/**` is the copy-in primitive library — see
+ * AI-REFERENCE.md and registry.json. Two deliberate divergences from a plain
+ * app config:
  *
- * Ported from waux-ai-studio's config with the Next.js presets swapped for
- * plain `typescript-eslint` + `eslint-plugin-react` + `eslint-plugin-react-hooks`
- * — this is a framework-agnostic library, not a Next app. Two deliberate
- * divergences from the app config:
- *
- *  1. **`react-hooks/*` stays ON.** waux disables every hooks rule. That is
- *     survivable in an app you control end to end; in a published library a
- *     conditional hook call becomes someone else's crash.
- *  2. **`packages/ui/src/components/**` gets two extra gates** — no string
- *     literals in JSX (§i18n: every user-visible string is a prop with an
- *     English default) and no `forwardRef` (React 19 passes `ref` as a plain
- *     prop).
+ *  1. **`react-hooks/*` stays ON everywhere.** A conditional hook call inside
+ *     a primitive someone copies into their own app becomes their crash.
+ *  2. **`src/components/ui/**` gets two extra gates** — no string literals in
+ *     JSX (§i18n: every user-visible string is a prop with an English
+ *     default, since a copied component cannot reach the consuming app's
+ *     `t()`) and no `forwardRef` (React 19 passes `ref` as a plain prop).
  *
  * @type {import("eslint").Linter.Config[]}
  */
@@ -80,7 +77,7 @@ const eslintConfig = defineConfig([
   {
     // Library primitives only. These two rules are the mechanical guards
     // behind the i18n contract and the zero-forwardRef rule.
-    files: ["packages/ui/src/components/**/*.tsx"],
+    files: ["src/components/ui/**/*.tsx"],
     rules: {
       // Every user-visible string must arrive as a prop with an English
       // default — a published library cannot reach an app's `t()`. Default
@@ -117,10 +114,6 @@ const eslintConfig = defineConfig([
     files: ["**/*.test.{ts,tsx}", "**/tests/**/*.{ts,tsx}"],
     rules: { "react/jsx-no-literals": "off" },
   },
-  // Flat-config ignores resolve against the config file's own directory, so a
-  // bare "dist/**" would only ever match a dist at the repo root — every
-  // package's build output would still be linted. The `**/` prefix is what
-  // makes these reach into packages/ and apps/.
   globalIgnores([
     "**/.next/**",
     "**/out/**",

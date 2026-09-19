@@ -1,6 +1,6 @@
 # compacto-ui — code style contract
 
-`@compacto/ui` is the shared primitive library for `waux-ai-studio` and
+compacto-ui is the shared primitive library for `waux-ai-studio` and
 `bulky-api`. Both apps previously kept their own copies of these components;
 this repo exists so one edit reaches both. That means every rule below is load
 bearing — a slip here ships to two production apps at once.
@@ -10,13 +10,12 @@ bearing — a slip here ships to two production apps at once.
 - **Function declarations, never arrow consts.** `function Button({...})`, not
   `const Button = ({...}) =>`.
 - **No `forwardRef`.** React 19 passes `ref` as a plain prop. ESLint enforces
-  this in `packages/ui/src/components/**`.
+  this in `src/components/ui/**`.
 - **`data-slot="kebab-name"` on every rendered element.** This is how consumers
   target our internals from their own CSS and tests. `Button` additionally
   carries `data-variant` and `data-size`.
 - **`cn(...)` with the caller's `className` last**, always — that ordering is
-  what lets a consumer override any built-in class, and there is a contract
-  test asserting it.
+  what lets a consumer override any built-in class.
 - **One trailing `export { ... }` block**, alphabetized. No inline `export`
   keywords on the declarations.
 - **Props typed inline** as `React.ComponentProps<"el">` or
@@ -25,17 +24,19 @@ bearing — a slip here ships to two production apps at once.
 
 ## Imports
 
-- **Every relative import carries an explicit `.js` extension** —
-  `import { cn } from "../lib/cn.js"`. The build runs `bundle: false`, which
-  does not rewrite specifiers, so an extensionless import produces invalid
-  output. TypeScript accepts `.js` under `moduleResolution: "bundler"`.
-- No path aliases inside `packages/ui`. Relative only.
+- **Import primitives and helpers via the `@/...` alias, never relative** —
+  `import { cn } from "@/lib/cn"`, `import { Button } from "@/components/ui/button"`.
+  This is what the registry build inlines verbatim into a copied component, so
+  a relative import (`../lib/cn`) would resolve to the wrong place once
+  copied out of this repo.
+- No `.js` extension on the specifier — this is a Next.js app, not the old
+  unbundled tsup build that required one.
 
 ## Tokens
 
 - **`--app-*` vocabulary only.** Never `bg-primary`, `text-muted-foreground`,
   `border-border` or any other shadcn semantic utility.
-- **No `dark:` variants.** The ten palettes in `constants/color-themes.ts` are
+- **No `dark:` variants.** The ten palettes in `lib/color-themes.ts` are
   complete palettes, not a light/dark pair — `light` is simply the one with
   `isLight: true`. `--app-*` already resolves to the right value for whichever
   palette is active, so a `dark:` clause can only drift away from it.
@@ -47,8 +48,7 @@ bearing — a slip here ships to two production apps at once.
   (`animate-in`, `fade-in-0`, …) — they are a dependency we deliberately
   do not have.
 
-`pnpm gates` checks the first three of these mechanically; the tw-animate-css
-rule is on you.
+All four of these are on you — there is no mechanical check for them.
 
 ## Copy and i18n
 
@@ -84,10 +84,18 @@ had already been replaced.
 ## Commands
 
 ```bash
-pnpm build       # build the package (runs verify-directives, publint, attw)
-pnpm test        # contract + exports tests
-pnpm gates       # the four source-level greps above
+pnpm build       # next build
 pnpm lint
 pnpm typecheck
-pnpm dev         # the docs gallery
+pnpm dev         # the docs gallery, localhost:3100
 ```
+
+## Distribution
+
+Not published to npm — no `publishConfig`, no `pnpm publish`, no separate
+package. Consuming apps (`waux-ai-studio`, `bulky-api`) copy component source
+directly via `registry.json`, shadcn-registry-style. There is no build script
+for it anymore — `public/r/<name>.json` (the artifact an AI agent or the
+`shadcn` CLI actually reads) is a hand-maintained snapshot, so update it by
+hand alongside `registry.json` when a component's source or dependencies
+change. Full protocol: `AI-REFERENCE.md`.

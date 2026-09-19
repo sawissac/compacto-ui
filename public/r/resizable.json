@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "resizable",
+  "type": "registry:ui",
+  "title": "Resizable",
+  "description": "Row or column of resizable panels over react-resizable-panels.",
+  "dependencies": [
+    "react-resizable-panels"
+  ],
+  "registryDependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/resizable.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Group, Panel, Separator } from \"react-resizable-panels\";\n\nimport { cn } from \"@/lib/cn\";\n\n/**\n * Container for a row or column of resizable panels.\n *\n * Wraps `react-resizable-panels`' `Group`; `react-resizable-panels` is an\n * optional peer dependency, so installing it is only required if you import\n * this module.\n *\n * **Two things this component cannot forward**, both because the underlying\n * library claims them for its own layout persistence:\n *\n * - `data-testid` and `id` are overwritten with generated values. Target the\n *   group with `[data-slot=\"resizable-group\"]`, or put your test id on a\n *   wrapper element. The same applies to `ResizablePanel`.\n * - `ref` yields the library's imperative panel-group handle, not the DOM\n *   node.\n *\n * `className` does pass through normally.\n *\n * @param props.orientation - `\"horizontal\"` lays panels side by side,\n *   `\"vertical\"` stacks them.\n * @param props.className - Extra classes merged onto the group.\n *\n * @example\n * ```tsx\n * <ResizableGroup orientation=\"horizontal\">\n *   <ResizablePanel defaultSize=\"30%\" minSize=\"180px\">…</ResizablePanel>\n *   <ResizableHandle />\n *   <ResizablePanel>…</ResizablePanel>\n * </ResizableGroup>\n * ```\n */\nfunction ResizableGroup({\n  className,\n  ...props\n}: React.ComponentProps<typeof Group>) {\n  return (\n    <Group\n      data-slot=\"resizable-group\"\n      className={cn(\n        \"flex h-full w-full data-[orientation=vertical]:flex-col\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\n/** One resizable region. Re-exported from `react-resizable-panels` unchanged. */\nconst ResizablePanel = Panel;\n\n/**\n * The draggable rule between two panels.\n *\n * Renders as a 1px line but claims a 12px invisible hit area through an\n * `::after` overlay — a literal 1px drag target is unusable with a mouse and\n * impossible with a trackpad. Highlights to the accent on hover, drag and\n * keyboard focus.\n *\n * @param props.className - Extra classes merged onto the handle.\n */\nfunction ResizableHandle({\n  className,\n  ...props\n}: React.ComponentProps<typeof Separator>) {\n  return (\n    <Separator\n      data-slot=\"resizable-handle\"\n      className={cn(\n        \"relative flex w-px shrink-0 items-center justify-center bg-app-border outline-none\",\n        \"transition-colors duration-(--motion-duration-fast)\",\n        \"hover:bg-app-accent/60 focus-visible:bg-app-accent data-[active]:bg-app-accent\",\n        \"after:absolute after:inset-y-0 after:left-1/2 after:w-3 after:-translate-x-1/2\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { ResizableGroup, ResizableHandle, ResizablePanel };\n"
+    }
+  ]
+}

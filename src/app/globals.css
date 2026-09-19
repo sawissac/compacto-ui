@@ -1,0 +1,22 @@
+/* This file is what prettier-plugin-tailwindcss points at as
+   `tailwindStylesheet`, since it is the only stylesheet in the repo that
+   imports Tailwind itself. */
+@import "tailwindcss";
+@import "../styles/index.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Supply this app's faces to the design system's font namespaces. */
+:root {
+  --app-font-sans: var(--font-open-sans);
+  --app-font-title: var(--font-poppins);
+  --app-font-display: var(--font-poppins);
+  --app-font-description: var(--font-open-sans);
+  --app-font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--font-sans);
+}
