@@ -23,7 +23,7 @@ const Ctx = React.createContext<PaletteContext | null>(null);
  * thing; the gallery does it here so the docs cannot drift from the advice.
  */
 export function PaletteProvider({ children }: { children: React.ReactNode }) {
-  const [palette, setPalette] = React.useState<ColorThemeKey>("midnight");
+  const [palette, setPalette] = React.useState<ColorThemeKey>("light");
 
   React.useEffect(() => {
     const theme = COLOR_THEMES[palette];

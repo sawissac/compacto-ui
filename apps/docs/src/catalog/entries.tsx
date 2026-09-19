@@ -458,7 +458,7 @@ export const ENTRIES: Entry[] = [
       };
       const [tab, setTab] = React.useState("files");
       const [open, setOpen] = React.useState("Profile service");
-      const [texture, setTexture] = React.useState<SidebarTexture>("dots");
+      const [texture, setTexture] = React.useState<SidebarTexture>("checker");
       const active = TABS.find((t) => t.id === tab);
       const TEXTURES: SidebarTexture[] = ["none", "checker", "dots", "graph"];
 
@@ -488,7 +488,7 @@ export const ENTRIES: Entry[] = [
           </div>
 
           <div className="flex h-72 overflow-hidden rounded-lg border border-app-border-mid">
-            <SidebarRail aria-label="Primary" texture={texture}>
+            <SidebarRail aria-label="Primary">
               <SidebarRailTablist aria-label="Sections">
                 {TABS.map((t) => (
                   <SidebarRailButton

@@ -63,8 +63,9 @@ function textureClass(texture: SidebarTexture | undefined) {
  * @param props.side - Which edge the rail sits on. Moves the border to the
  *   facing side; pass the same value to each {@link SidebarRailButton} so
  *   their state markers point inward too.
- * @param props.texture - Decorative wash over the rail surface. Usually you
- *   want the same value as the pane beside it so the two read as one layer.
+ * @param props.texture - Decorative wash over the rail surface. Off by
+ *   default, and the apps leave it off: the rail is chrome, and a flat strip
+ *   beside a textured pane is what makes the pane read as a surface.
  * @param props.className - Extra classes merged onto the rail.
  *
  * @example
@@ -220,8 +221,10 @@ function SidebarRailSpacer({
  * @param props.texture - Decorative wash over the pane surface: `checker`,
  *   `dots` or `graph`, or `none` (default) for a flat panel. Drawn from the
  *   active palette's accent, behind the content, at `--app-texture-alpha`.
- *   The work area beside it should stay flat — a texture under code or prose
- *   costs legibility for nothing.
+ *   {@link SidebarHeader} and {@link SidebarFooter} paint flat above it, so
+ *   the wash reads as the content area's surface rather than the chrome's.
+ *   The rail beside it usually stays flat too, and so should the work area —
+ *   a texture under code or prose costs legibility for nothing.
  * @param props.className - Extra classes merged onto the pane.
  *
  * @example
@@ -277,7 +280,10 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-header"
       className={cn(
-        "flex h-12 shrink-0 items-center gap-2 border-b border-app-border px-3",
+        // `relative` + an opaque background so the bar paints ABOVE the pane's
+        // texture ::before. A pattern under a search field or a title reads as
+        // noise; the wash belongs to the content area, not the chrome.
+        "relative flex h-12 shrink-0 items-center gap-2 border-b border-app-border bg-app-sidebar px-3",
         className,
       )}
       {...props}
@@ -316,7 +322,8 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-footer"
       className={cn(
-        "flex shrink-0 items-center gap-2 border-t border-app-border px-3 py-2",
+        // Same reasoning as SidebarHeader: a pinned bar stays flat above the wash.
+        "relative flex shrink-0 items-center gap-2 border-t border-app-border bg-app-sidebar px-3 py-2",
         className,
       )}
       {...props}

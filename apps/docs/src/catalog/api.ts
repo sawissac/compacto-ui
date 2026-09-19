@@ -405,7 +405,8 @@ export const API: Record<string, ApiDoc> = {
       'SidebarItem renders a <button type="button">. Inside a form the default would be "submit", which would post the form on every row click.',
       'Pass `side="right"` to both SidebarRail and its buttons for a rail on the trailing edge — the border and the state markers both flip.',
       "The pane fills its parent edge to edge, so it drops straight into a ResizablePanel.",
-      "`texture` draws a decorative wash — checker, dots or graph — on a ::before behind the content, from the active palette's accent. It is what makes a side panel read as a distinct layer rather than flat filler. Give the rail and pane the same value so they read as one surface, and keep the work area flat: a pattern under code or prose costs legibility for nothing.",
+      "`texture` draws a decorative wash — checker, dots or graph — on a ::before behind the content, from the active palette's accent. It is what makes a side panel read as a distinct layer rather than flat filler.",
+      "SidebarHeader and SidebarFooter paint flat above the wash (they carry `relative` and an opaque background), so the pattern belongs to the content area, not the chrome. Leave the rail flat too — a flat strip beside a textured pane is what makes the pane read as a surface — and never texture the work area.",
       "Texture strength is `--app-texture-alpha` (default 0.2). Set it on an ancestor to tune one panel, on :root to tune all of them — the apps expose it as a user setting.",
     ],
     props: [

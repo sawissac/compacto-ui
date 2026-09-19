@@ -30,7 +30,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    // No hardcoded `.dark`: PaletteProvider toggles it from the palette's
+    // isLight flag on mount, and the default palette is now a light one. A
+    // hardcoded class here would flash dark surfaces for one frame before the
+    // provider corrected it.
+    <html lang="en">
       <body
         className={`${poppins.variable} ${openSans.variable} ${jetbrainsMono.variable}`}
       >
