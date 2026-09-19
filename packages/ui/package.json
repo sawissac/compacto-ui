@@ -73,6 +73,10 @@
       "types": "./dist/components/separator.d.ts",
       "default": "./dist/components/separator.js"
     },
+    "./sidebar": {
+      "types": "./dist/components/sidebar.d.ts",
+      "default": "./dist/components/sidebar.js"
+    },
     "./skeleton": {
       "types": "./dist/components/skeleton.d.ts",
       "default": "./dist/components/skeleton.js"
@@ -100,6 +104,7 @@
     "./styles.css": "./dist/styles/index.css",
     "./tokens.css": "./dist/styles/tokens.css",
     "./theme.css": "./dist/styles/theme.css",
+    "./texture.css": "./dist/styles/texture.css",
     "./compat-shadcn.css": "./dist/styles/compat-shadcn.css",
     "./package.json": "./package.json"
   },

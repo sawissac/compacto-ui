@@ -15,6 +15,7 @@ import * as popover from "../src/components/popover.js";
 import * as resizable from "../src/components/resizable.js";
 import * as select from "../src/components/select.js";
 import * as separator from "../src/components/separator.js";
+import * as sidebar from "../src/components/sidebar.js";
 import * as skeleton from "../src/components/skeleton.js";
 import * as tabs from "../src/components/tabs.js";
 import * as tooltip from "../src/components/tooltip.js";
@@ -39,6 +40,7 @@ const MODULES: Record<string, Record<string, unknown>> = {
   resizable,
   select,
   separator,
+  sidebar,
   skeleton,
   tabs,
   tooltip,
@@ -69,6 +71,7 @@ const COMPONENT_SUBPATHS = [
   "resizable",
   "select",
   "separator",
+  "sidebar",
   "skeleton",
   "tabs",
   "tooltip",
@@ -88,6 +91,7 @@ const REPRESENTATIVE: Record<(typeof COMPONENT_SUBPATHS)[number], string> = {
   resizable: "ResizableGroup",
   select: "Select",
   separator: "Separator",
+  sidebar: "Sidebar",
   skeleton: "Skeleton",
   tabs: "Tabs",
   tooltip: "Tooltip",
@@ -113,6 +117,7 @@ describe("exports map", () => {
       "./styles.css",
       "./tokens.css",
       "./theme.css",
+      "./texture.css",
       "./compat-shadcn.css",
       "./package.json",
     ]) {

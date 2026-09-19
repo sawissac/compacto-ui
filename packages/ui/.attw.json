@@ -5,6 +5,7 @@
     "styles.css",
     "tokens.css",
     "theme.css",
+    "texture.css",
     "compat-shadcn.css"
   ]
 }

@@ -31,7 +31,8 @@ keep resolving after it migrates to the package.
 ### No derivation
 
 `Select`, `Tabs`, `Popover`, `DropdownMenu`, `Tooltip`, `Command`,
-`ButtonGroup`, `Dialog` (root), `Button`, `Separator`, `Skeleton`.
+`ButtonGroup`, `Dialog` (root), `Button`, `Separator`, `Skeleton`, `Sidebar`
+(every part).
 
 Each part of these is its own exported component, so the caller already owns
 every id it could want. Deriving here would guess at structure the caller can

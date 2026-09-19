@@ -43,6 +43,7 @@ const SERVER_SAFE = new Set([
   "components/button.js",
   "components/button-group.js",
   "components/skeleton.js",
+  "components/sidebar.js",
 ]);
 
 const DIRECTIVE = '"use client";';

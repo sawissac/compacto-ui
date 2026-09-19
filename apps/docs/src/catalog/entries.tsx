@@ -56,16 +56,36 @@ import {
   SelectValue,
 } from "@compacto/ui/select";
 import { Separator } from "@compacto/ui/separator";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarItem,
+  SidebarRail,
+  SidebarRailButton,
+  SidebarRailSpacer,
+  SidebarRailTablist,
+  type SidebarTexture,
+  SidebarTitle,
+} from "@compacto/ui/sidebar";
 import { Skeleton } from "@compacto/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@compacto/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@compacto/ui/tooltip";
 import {
   Copy,
+  Database,
   Download,
+  FileLock,
+  FolderOpen,
   FolderPlus,
   MoreVertical,
+  Plus,
   RotateCw,
   Search,
+  Settings,
   Trash2,
 } from "lucide-react";
 import * as React from "react";
@@ -418,6 +438,122 @@ export const ENTRIES: Entry[] = [
         </ResizableGroup>
       </div>
     ),
+  },
+  {
+    slug: "sidebar",
+    name: "Sidebar",
+    blurb:
+      "The rail-plus-pane shell both apps hand-roll: a 48px icon strip that selects a full-height pane.",
+    serverSafe: true,
+    Preview: function SidebarPreview() {
+      const TABS = [
+        { id: "files", label: "Requests", Icon: FolderOpen },
+        { id: "env", label: "Environments", Icon: FileLock },
+        { id: "db", label: "Databases", Icon: Database },
+      ];
+      const ROWS: Record<string, string[]> = {
+        files: ["Profile service", "Billing", "Webhooks"],
+        env: ["local", "staging", "production"],
+        db: ["primary", "analytics"],
+      };
+      const [tab, setTab] = React.useState("files");
+      const [open, setOpen] = React.useState("Profile service");
+      const [texture, setTexture] = React.useState<SidebarTexture>("dots");
+      const active = TABS.find((t) => t.id === tab);
+      const TEXTURES: SidebarTexture[] = ["none", "checker", "dots", "graph"];
+
+      return (
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[11px] text-app-dim">texture</span>
+            <ButtonGroup>
+              {TEXTURES.map((t) => (
+                <Button
+                  key={t}
+                  variant="outline"
+                  size="xs"
+                  aria-pressed={t === texture}
+                  data-testid={`texture-${t}`}
+                  onClick={() => setTexture(t)}
+                  className={
+                    t === texture
+                      ? "relative z-10 bg-app-selected text-app-bright"
+                      : undefined
+                  }
+                >
+                  {t}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+
+          <div className="flex h-72 overflow-hidden rounded-lg border border-app-border-mid">
+            <SidebarRail aria-label="Primary" texture={texture}>
+              <SidebarRailTablist aria-label="Sections">
+                {TABS.map((t) => (
+                  <SidebarRailButton
+                    key={t.id}
+                    role="tab"
+                    aria-label={t.label}
+                    aria-selected={t.id === tab}
+                    aria-controls="demo-sidebar-pane"
+                    data-active={t.id === tab || undefined}
+                    onClick={() => setTab(t.id)}
+                  >
+                    <t.Icon />
+                  </SidebarRailButton>
+                ))}
+              </SidebarRailTablist>
+              <SidebarRailSpacer />
+              <SidebarRailButton aria-label="Settings">
+                <Settings />
+              </SidebarRailButton>
+            </SidebarRail>
+
+            <Sidebar
+              id="demo-sidebar-pane"
+              role="tabpanel"
+              aria-label={active?.label}
+              texture={texture}
+              className="w-56"
+            >
+              <SidebarHeader>
+                <SidebarTitle>{active?.label}</SidebarTitle>
+                <Button variant="ghost" size="icon-sm" aria-label="New">
+                  <Plus />
+                </Button>
+              </SidebarHeader>
+              <SidebarContent>
+                <SidebarGroup>
+                  <SidebarGroupLabel>All</SidebarGroupLabel>
+                  {ROWS[tab].map((name) => (
+                    <SidebarItem
+                      key={name}
+                      data-selected={name === open || undefined}
+                      onClick={() => setOpen(name)}
+                    >
+                      {name}
+                    </SidebarItem>
+                  ))}
+                </SidebarGroup>
+              </SidebarContent>
+              <SidebarFooter>
+                <span className="font-mono text-[11px] text-app-dim">
+                  {ROWS[tab].length} items
+                </span>
+              </SidebarFooter>
+            </Sidebar>
+
+            {/* Stub work area. Without something on the other side of the seam
+              the pane reads as a floating box rather than the edge of an app
+              shell, which is the whole thing this component is for. */}
+            <div className="flex min-w-0 flex-1 items-center justify-center bg-app-bg">
+              <span className="font-mono text-[11px] text-app-dim">{open}</span>
+            </div>
+          </div>
+        </div>
+      );
+    },
   },
   {
     slug: "separator",

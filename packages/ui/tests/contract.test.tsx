@@ -35,6 +35,13 @@ import {
   SelectValue,
 } from "../src/components/select.js";
 import { Separator } from "../src/components/separator.js";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarRail,
+  SidebarRailButton,
+} from "../src/components/sidebar.js";
 import { Skeleton } from "../src/components/skeleton.js";
 import { Tabs, TabsList, TabsTrigger } from "../src/components/tabs.js";
 import {
@@ -110,6 +117,34 @@ const CASES: Case[] = [
     name: "Separator",
     slot: "separator",
     render: (p) => <Separator {...p} />,
+  },
+  {
+    name: "Sidebar",
+    slot: "sidebar",
+    render: (p) => (
+      <Sidebar {...p}>
+        <SidebarHeader>header</SidebarHeader>
+        <SidebarContent>body</SidebarContent>
+      </Sidebar>
+    ),
+  },
+  {
+    name: "SidebarRail",
+    slot: "sidebar-rail",
+    render: (p) => (
+      <SidebarRail aria-label="Primary" {...p}>
+        <SidebarRailButton aria-label="Files">icon</SidebarRailButton>
+      </SidebarRail>
+    ),
+  },
+  {
+    name: "SidebarRailButton",
+    slot: "sidebar-rail-button",
+    render: (p) => (
+      <SidebarRailButton aria-label="Files" {...p}>
+        icon
+      </SidebarRailButton>
+    ),
   },
   {
     name: "Skeleton",
@@ -361,6 +396,30 @@ describe("derived test ids", () => {
     expect(screen.getByTestId("cal-day-2026-09-19")).toBeInTheDocument();
     expect(screen.getByTestId("cal-prev-button")).toBeInTheDocument();
     expect(screen.getByTestId("cal-next-button")).toBeInTheDocument();
+  });
+});
+
+describe("Sidebar texture", () => {
+  it("applies the texture class and data attribute, and none for 'none'", () => {
+    const { rerender } = render(<Sidebar texture="dots">x</Sidebar>);
+    const pane = () => document.querySelector('[data-slot="sidebar"]')!;
+    expect(pane().className).toContain("compacto-texture--dots");
+    expect(pane().getAttribute("data-texture")).toBe("dots");
+
+    rerender(<Sidebar>x</Sidebar>);
+    expect(pane().className).not.toContain("compacto-texture--");
+    expect(pane().getAttribute("data-texture")).toBe("none");
+  });
+
+  it("applies to the rail too", () => {
+    render(
+      <SidebarRail aria-label="Primary" texture="graph">
+        <SidebarRailButton aria-label="a">a</SidebarRailButton>
+      </SidebarRail>,
+    );
+    expect(
+      document.querySelector('[data-slot="sidebar-rail"]')?.className,
+    ).toContain("compacto-texture--graph");
   });
 });
 

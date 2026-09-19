@@ -88,6 +88,22 @@ export {
   SelectValue,
 } from "./components/select.js";
 export { Separator } from "./components/separator.js";
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarItem,
+  SidebarRail,
+  SidebarRailButton,
+  sidebarRailButtonVariants,
+  SidebarRailSpacer,
+  SidebarRailTablist,
+  SidebarSeparator,
+  SidebarTitle,
+} from "./components/sidebar.js";
 export { Skeleton } from "./components/skeleton.js";
 export {
   Tabs,
