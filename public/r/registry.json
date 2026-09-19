@@ -19,7 +19,7 @@
       "name": "color-themes",
       "type": "registry:lib",
       "title": "color-themes",
-      "description": "Ten complete --app-* palettes plus appThemeCssVars() to apply one at runtime."
+      "description": "Twenty-three complete --app-* palettes across twelve hues, plus appThemeCssVars() to apply one at runtime."
     },
     {
       "name": "styles",
@@ -32,6 +32,12 @@
       "type": "registry:file",
       "title": "shadcn token compat layer",
       "description": "Optional bridge that maps shadcn's semantic tokens (bg-primary, border-border, ...) onto --app-*, for apps mid-migration off shadcn. Scheduled for deletion in v2 — do not add new dependents."
+    },
+    {
+      "name": "palette-provider",
+      "type": "registry:component",
+      "title": "PaletteProvider",
+      "description": "Reference theming provider: applies a color-themes palette to document.documentElement and exposes usePalette(). Copy it or fold the effect into your own provider."
     },
     {
       "name": "button",
@@ -58,6 +64,12 @@
       "description": "Filterable command list over cmdk; CommandDialog wraps it in a command-palette overlay."
     },
     {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "DataTable",
+      "description": "Sortable, row-virtualized table over @tanstack/react-table v9 + @tanstack/react-virtual. Reach for it for any list of more than a screenful of rows."
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -80,6 +92,24 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text field with optional leading icon and clear button, built on ui-styles' field recipe."
+    },
+    {
+      "name": "option-grid",
+      "type": "registry:ui",
+      "title": "OptionGrid",
+      "description": "Grid of standalone choice cards — caller-sized swatch, label, optional description — for a choice that benefits from a real preview."
+    },
+    {
+      "name": "option-list",
+      "type": "registry:ui",
+      "title": "OptionList",
+      "description": "Segmented list of full-width selectable rows — icon, label, one-line description, trailing check."
+    },
+    {
+      "name": "option-palette",
+      "type": "registry:ui",
+      "title": "OptionPalette",
+      "description": "The --app-* theme picker: every palette as a card, grouped by hue, each previewing the theme it selects."
     },
     {
       "name": "popover",

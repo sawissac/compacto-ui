@@ -181,6 +181,91 @@ export const API: Record<string, ApiDoc> = {
       },
     ],
   },
+  "option-grid": {
+    exports: ["OptionGrid"],
+    notes: [
+      "The swatch is entirely the caller's ReactNode, sizing included — this component only owns card chrome, selection state and the Check badge.",
+      "Controlled only — value and onValueChange are both required.",
+      "Derives `${testId}-<value>` per card from data-testid.",
+      "A card paints from the --app-* tokens in scope, so an option's style can repaint one card in a different palette — appThemeCssVars(theme) is how the theming page previews twenty-three palettes on a page rendered in one of them.",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "{ value, label, description?, swatch: ReactNode, style? }[]",
+        desc: "The choices, in order.",
+      },
+      {
+        name: "value",
+        type: "string",
+        desc: "The selected option's value.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        desc: "Called with a value when its tile is clicked.",
+      },
+    ],
+  },
+  "option-palette": {
+    exports: ["OptionPalette"],
+    notes: [
+      "Reports a ColorThemeKey and applies nothing — wire onValueChange to whatever already writes appThemeCssVars() onto the document. On its own it looks like it does nothing.",
+      "Each card carries its own palette's --app-* values inline, so it previews the theme it selects on a page painted in a different one.",
+      "Grouped by hue from COLOR_THEME_PAIRS: a dark palette sits next to its light counterpart. Chocolate (`light`) has no dark side, so its group holds one card.",
+      "Controlled only — value and onValueChange are both required.",
+      "Derives `${testId}-<hue>` per hue grid and `${testId}-<hue>-<theme key>` per card from data-testid.",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "ColorThemeKey",
+        desc: "The selected palette.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: ColorThemeKey) => void",
+        desc: "Called with a key when its card is clicked.",
+      },
+      {
+        name: "darkLabel",
+        type: "string",
+        default: '"dark"',
+        desc: "Copy under a dark palette's name.",
+      },
+      {
+        name: "lightLabel",
+        type: "string",
+        default: '"light"',
+        desc: "Copy under a light palette's name.",
+      },
+    ],
+  },
+  "option-list": {
+    exports: ["OptionList"],
+    notes: [
+      "A divide-y segmented group inside one outer border — reach for OptionGrid instead when a swatch preview matters more than a description.",
+      "Controlled only — value and onValueChange are both required.",
+      "Derives `${testId}-<value>` per row from data-testid.",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "{ value, label, description?, icon? }[]",
+        desc: "The choices, in order.",
+      },
+      {
+        name: "value",
+        type: "string",
+        desc: "The selected option's value.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        desc: "Called with a value when its row is clicked.",
+      },
+    ],
+  },
   popover: {
     exports: [
       "Popover",
@@ -273,6 +358,7 @@ export const API: Record<string, ApiDoc> = {
     notes: [
       "The active marker follows orientation: an underline horizontally, a right-hand rule vertically.",
       '`variant="line"` drops the filled track and marks the active tab with a rule, which reads better when the tabs sit directly on a panel edge.',
+      '`variant="nav"` is a fixed-width icon rail meant for `orientation="vertical"` — a settings dialog\'s left-hand section list, each row an icon plus an uppercase label.',
     ],
     props: [
       {
@@ -283,9 +369,9 @@ export const API: Record<string, ApiDoc> = {
       },
       {
         name: "variant (TabsList)",
-        type: '"default" | "line"',
+        type: '"default" | "line" | "nav"',
         default: '"default"',
-        desc: "Filled segmented track, or a bare row.",
+        desc: "Filled segmented track, a bare row, or a bordered icon rail.",
       },
     ],
   },
@@ -319,6 +405,64 @@ export const API: Record<string, ApiDoc> = {
         type: "string",
         default: '"Search for a command to run..."',
         desc: "Accessible description for the dialog.",
+      },
+    ],
+  },
+  "data-table": {
+    exports: ["DataTable", "dataTableColumnHelper", "DataTableColumn", "DataTableFeatures"],
+    notes: [
+      "Headless core: @tanstack/react-table v9 produces the header groups and the sorted row model; this component owns markup, --app-* styling, the sticky header, sort affordances and aria-sort.",
+      "Rows are virtualized with @tanstack/react-virtual over the *sorted* row model, positioned by two spacer <tr>s so the table keeps native column layout. Only rows in view (plus overscan) are in the DOM.",
+      "Virtualization needs a bounded scroll box — that is why `height` exists. Override with a className like h-full inside a parent that already constrains height.",
+      "Build columns with dataTableColumnHelper<Row>() at module scope. v9 types a column def against the registered feature set, so a def from a bare createColumnHelper() will not type-check here.",
+      "Keep `columns` and `data` referentially stable (module constant, state, or a query result). A fresh array per render rebuilds the row model every render.",
+      "Sorting is internal after `defaultSorting`; a header click cycles asc → desc → off. `enableSorting: false` on a column removes its affordance.",
+      "Derives `${testId}-header-<columnId>` per header and `${testId}-row-<rowId>` per rendered row from data-testid — only rows in view exist to be found.",
+    ],
+    props: [
+      {
+        name: "columns",
+        type: "DataTableColumn<Row>[]",
+        desc: "From dataTableColumnHelper<Row>().columns([...]). `size` is width in px.",
+      },
+      {
+        name: "data",
+        type: "Row[]",
+        desc: "The rows. Stable reference.",
+      },
+      {
+        name: "getRowId",
+        type: "(row: Row, index: number) => string",
+        default: "row index",
+        desc: "Stable id per row — React key, virtual measurement, derived test id.",
+      },
+      {
+        name: "height",
+        type: "number",
+        default: "400",
+        desc: "Scroll box height in px.",
+      },
+      {
+        name: "rowHeight",
+        type: "number",
+        default: "36",
+        desc: "Estimated row height in px; rows are measured after mount.",
+      },
+      {
+        name: "defaultSorting",
+        type: "SortingState",
+        desc: "Initial sort, e.g. [{ id: \"ms\", desc: true }].",
+      },
+      {
+        name: "onRowClick",
+        type: "(row: Row) => void",
+        desc: "Makes rows clickable; called with the row's original datum.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        default: '"No rows"',
+        desc: "Copy shown in place of rows when data is empty.",
       },
     ],
   },
@@ -407,7 +551,7 @@ export const API: Record<string, ApiDoc> = {
       "The pane fills its parent edge to edge, so it drops straight into a ResizablePanel.",
       "`texture` draws a decorative wash — checker, dots or graph — on a ::before behind the content, from the active palette's accent. It is what makes a side panel read as a distinct layer rather than flat filler.",
       "SidebarHeader and SidebarFooter paint flat above the wash (they carry `relative` and an opaque background), so the pattern belongs to the content area, not the chrome. Leave the rail flat too — a flat strip beside a textured pane is what makes the pane read as a surface — and never texture the work area.",
-      "Texture strength is `--app-texture-alpha` (default 0.2). Set it on an ancestor to tune one panel, on :root to tune all of them — the apps expose it as a user setting.",
+      "Texture strength is `--app-texture-alpha` (default 0.05). Set it on an ancestor to tune one panel, on :root to tune all of them — the apps expose it as a user setting.",
     ],
     props: [
       {

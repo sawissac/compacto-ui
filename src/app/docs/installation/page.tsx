@@ -27,6 +27,7 @@ export default function Page() {
         { id: "copy", label: "Copy a component" },
         { id: "deps", label: "Install its dependencies" },
         { id: "stylesheet", label: "Stylesheet" },
+        { id: "theming", label: "Theme it" },
         { id: "migrating", label: "Migrating from shadcn tokens" },
         { id: "troubleshooting", label: "If classes don't generate" },
       ]}
@@ -77,13 +78,34 @@ export default function Page() {
         </div>
       </Section>
 
+      <Section id="theming" title="Theme it">
+        <p className="mb-3 text-[13px] leading-relaxed text-app-text">
+          Copy the <code className="font-mono">palette-provider</code> registry
+          item and mount it once in the root layout. It writes the active
+          palette&apos;s <code className="font-mono">--app-*</code> variables
+          onto <code className="font-mono">documentElement</code>; drive it with{" "}
+          <code className="font-mono">OptionPalette</code> or{" "}
+          <code className="font-mono">usePalette()</code>. Persistence is yours
+          — pass the saved key as{" "}
+          <code className="font-mono">defaultPalette</code>.
+        </p>
+        <Code>
+          {`<PaletteProvider defaultPalette="midnight-dark">{children}</PaletteProvider>`}
+        </Code>
+        <p className="mt-3 text-[13px] leading-relaxed text-app-dim">
+          Reproducing the look without the components — another framework, plain
+          CSS — is what <code className="font-mono">DESIGN.md</code> at the repo
+          root is for.
+        </p>
+      </Section>
+
       <Section id="migrating" title="Migrating from shadcn tokens">
         <p className="mb-3 text-[13px] leading-relaxed text-app-text">
           If your own feature code still writes{" "}
           <code className="font-mono">bg-primary</code> or{" "}
           <code className="font-mono">text-muted-foreground</code>, copy the
-          opt-in <code className="font-mono">compat-shadcn</code> registry
-          item too. It aliases the semantic variables onto{" "}
+          opt-in <code className="font-mono">compat-shadcn</code> registry item
+          too. It aliases the semantic variables onto{" "}
           <code className="font-mono">--app-*</code>.
         </p>
         <Code>{`@import "./compacto/compat-shadcn.css";`}</Code>

@@ -36,10 +36,11 @@ bearing — a slip here ships to two production apps at once.
 
 - **`--app-*` vocabulary only.** Never `bg-primary`, `text-muted-foreground`,
   `border-border` or any other shadcn semantic utility.
-- **No `dark:` variants.** The ten palettes in `lib/color-themes.ts` are
-  complete palettes, not a light/dark pair — `light` is simply the one with
-  `isLight: true`. `--app-*` already resolves to the right value for whichever
-  palette is active, so a `dark:` clause can only drift away from it.
+- **No `dark:` variants.** The twenty-three palettes in `lib/color-themes.ts`
+  are complete palettes, not light/dark pairs over a fixed accent — each one
+  says whether it is light via `isLight`. `--app-*` already resolves to the
+  right value for whichever palette is active, so a `dark:` clause can only
+  drift away from it.
 - **Never write a colorless `border` / `border-b` / `border-x`.** The consuming
   apps have a `@layer base { * { @apply border-border } }` rule that silently
   supplies a color; this library does not, so a bare border falls back to
@@ -48,7 +49,9 @@ bearing — a slip here ships to two production apps at once.
   (`animate-in`, `fade-in-0`, …) — they are a dependency we deliberately
   do not have.
 
-All four of these are on you — there is no mechanical check for them.
+`pnpm conventions` (`scripts/check-conventions.mjs`) catches all four
+mechanically, plus relative imports, `.js` specifiers and inline `export`
+declarations. It runs as part of `pnpm check`; keep it green.
 
 ## Copy and i18n
 
@@ -84,18 +87,20 @@ had already been replaced.
 ## Commands
 
 ```bash
-pnpm build       # next build
-pnpm lint
-pnpm typecheck
-pnpm dev         # the docs gallery, localhost:3100
+pnpm dev              # the docs gallery, localhost:3100
+pnpm check            # format:check + lint + typecheck + conventions + registry:check
+pnpm registry:build   # regenerate public/r/*.json after editing src/ or registry.json
+pnpm build            # next build
 ```
 
 ## Distribution
 
 Not published to npm — no `publishConfig`, no `pnpm publish`, no separate
 package. Consuming apps (`waux-ai-studio`, `bulky-api`) copy component source
-directly via `registry.json`, shadcn-registry-style. There is no build script
-for it anymore — `public/r/<name>.json` (the artifact an AI agent or the
-`shadcn` CLI actually reads) is a hand-maintained snapshot, so update it by
-hand alongside `registry.json` when a component's source or dependencies
-change. Full protocol: `AI-REFERENCE.md`.
+directly via `registry.json`, shadcn-registry-style. `public/r/<name>.json`
+(the artifact an AI agent or the `shadcn` CLI actually reads) is **generated**
+from `registry.json` + `src/` by `pnpm registry:build` — never hand-edit it.
+After any change to a component, a lib file, a stylesheet, or an item's
+`dependencies`, run the build and commit the regenerated JSON with the change;
+`pnpm registry:check` fails the `check` script if you forget. Full protocol:
+`AI-REFERENCE.md`; the design language itself: `DESIGN.md`.

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronDown } from "lucide-react";
+import { Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -85,11 +85,15 @@ function cnActive(active: boolean) {
 
 /**
  * Opens a grouped grid of every palette — dark and light side by side per
- * hue — so flipping the gallery across all nineteen no longer means picking a
+ * hue — so flipping the gallery across all twenty-three no longer means picking a
  * near-invisible dot out of one long strip. This is the control that makes
- * the gallery worth having: a primitive that looks right on `midnight` and
+ * the gallery worth having: a primitive that looks right on `midnight-dark` and
  * wrong on `light` is the exact failure the token conversion could introduce,
  * and the only way to see it is to flip between them.
+ *
+ * Icon-only trigger — just the current accent as a dot, name in its tooltip —
+ * so it drops into a header next to other controls without eating label
+ * width for a value most visitors only need to glance at.
  */
 export function PaletteSwitcher() {
   const { palette, setPalette } = usePalette();
@@ -97,22 +101,25 @@ export function PaletteSwitcher() {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          data-testid="palette-switcher-trigger"
-          aria-label={`Theme: ${labelFor(palette)}`}
-        >
-          <span
-            aria-hidden
-            className="size-3 rounded-full border border-app-border-mid"
-            style={{ background: current.accent }}
-          />
-          <span className="max-w-24 truncate">{labelFor(palette)}</span>
-          <ChevronDown className="text-app-dim" />
-        </Button>
-      </PopoverTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              data-testid="palette-switcher-trigger"
+              aria-label={`Theme: ${labelFor(palette)}`}
+            >
+              <span
+                aria-hidden
+                className="size-3.5 rounded-full border border-app-border-mid"
+                style={{ background: current.accent }}
+              />
+            </Button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Theme: {labelFor(palette)}</TooltipContent>
+      </Tooltip>
       <PopoverContent align="end" className="w-auto p-3">
         <PopoverHeader className="mb-2 px-1">
           <PopoverTitle>Theme</PopoverTitle>

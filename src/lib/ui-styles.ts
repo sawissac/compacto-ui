@@ -5,7 +5,7 @@
  * text field) expressed once, so callers compose them instead of re-declaring
  * the same strings. Colors come from the `app-*` Tailwind namespace, which
  * resolves to the active palette's `--app-*` variables — see
- * `appThemeCssVars()` in `../constants/color-themes.js`.
+ * `appThemeCssVars()` in `@/lib/color-themes`.
  *
  * Flat rules baked in here: no shadows, no gradients, borders only where a
  * block boundary is not enough, and interaction feedback via color/border

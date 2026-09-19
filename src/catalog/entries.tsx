@@ -1,5 +1,27 @@
 "use client";
 
+import {
+  Copy,
+  Database,
+  Download,
+  FileLock,
+  FolderOpen,
+  FolderPlus,
+  Grid2x2,
+  LayoutTemplate,
+  MoreVertical,
+  Palette,
+  PanelLeftRightDashed,
+  Plus,
+  RotateCw,
+  Search,
+  Settings,
+  SlidersHorizontal,
+  Trash2,
+  TvMinimal,
+} from "lucide-react";
+import * as React from "react";
+
 import { Button } from "@/components/ui/button";
 import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,6 +34,7 @@ import {
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
+import { DataTable, dataTableColumnHelper } from "@/components/ui/data-table";
 import {
   Dialog,
   DialogBody,
@@ -32,6 +55,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { Input } from "@/components/ui/input";
+import { OptionGrid } from "@/components/ui/option-grid";
+import { OptionList } from "@/components/ui/option-list";
+import { OptionPalette } from "@/components/ui/option-palette";
 import {
   Popover,
   PopoverContent,
@@ -74,21 +100,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import {
-  Copy,
-  Database,
-  Download,
-  FileLock,
-  FolderOpen,
-  FolderPlus,
-  MoreVertical,
-  Plus,
-  RotateCw,
-  Search,
-  Settings,
-  Trash2,
-} from "lucide-react";
-import * as React from "react";
+import type { ColorThemeKey } from "@/lib/color-themes";
 
 export type Entry = {
   slug: string;
@@ -119,6 +131,42 @@ function Boom({ armed }: { armed: boolean }): React.ReactElement {
     <p className="p-4 text-center text-xs text-app-dim">Rendering normally.</p>
   );
 }
+
+type RequestRow = {
+  id: string;
+  method: string;
+  path: string;
+  status: number;
+  ms: number;
+};
+
+const requestColumns = dataTableColumnHelper<RequestRow>();
+
+// Module scope on purpose: TanStack rebuilds its row model whenever `columns`
+// or `data` change identity, so neither may be recreated per render.
+const REQUEST_COLUMNS = requestColumns.columns([
+  requestColumns.accessor("method", { header: "Method", size: 88 }),
+  requestColumns.accessor("path", { header: "Path", size: 260 }),
+  requestColumns.accessor("status", { header: "Status", size: 88 }),
+  requestColumns.accessor("ms", {
+    header: "Time",
+    size: 96,
+    cell: (c) => `${c.getValue()} ms`,
+  }),
+]);
+
+const REQUEST_ROWS: RequestRow[] = Array.from({ length: 5000 }, (_, i) => {
+  const methods = ["GET", "POST", "PUT", "DELETE"];
+  const paths = ["/users", "/invoices", "/tokens/refresh", "/webhooks", "/exports"];
+  const statuses = [200, 200, 200, 201, 204, 400, 404, 500];
+  return {
+    id: `req_${i.toString().padStart(4, "0")}`,
+    method: methods[i % methods.length],
+    path: `${paths[(i * 7) % paths.length]}/${(i * 31) % 997}`,
+    status: statuses[(i * 13) % statuses.length],
+    ms: 12 + ((i * 37) % 1900),
+  };
+});
 
 export const ENTRIES: Entry[] = [
   {
@@ -270,6 +318,113 @@ export const ENTRIES: Entry[] = [
     ),
   },
   {
+    slug: "option-grid",
+    name: "OptionGrid",
+    blurb: "Standalone swatch cards for a choice that deserves a real preview.",
+    Preview: function OptionGridPreview() {
+      const [value, setValue] = React.useState("mint");
+      return (
+        <OptionGrid
+          value={value}
+          onValueChange={setValue}
+          options={[
+            {
+              value: "mint",
+              label: "Mint",
+              swatch: (
+                <span
+                  aria-hidden
+                  className="block h-11 w-full rounded-md"
+                  style={{
+                    background: "linear-gradient(135deg, #34d399, #047857)",
+                  }}
+                />
+              ),
+            },
+            {
+              value: "sky",
+              label: "Sky",
+              swatch: (
+                <span
+                  aria-hidden
+                  className="block h-11 w-full rounded-md"
+                  style={{
+                    background: "linear-gradient(135deg, #38bdf8, #0369a1)",
+                  }}
+                />
+              ),
+            },
+            {
+              value: "rose",
+              label: "Rose",
+              swatch: (
+                <span
+                  aria-hidden
+                  className="block h-11 w-full rounded-md"
+                  style={{
+                    background: "linear-gradient(135deg, #fb7185, #be123c)",
+                  }}
+                />
+              ),
+            },
+            {
+              value: "none",
+              label: "None",
+              swatch: (
+                <span
+                  aria-hidden
+                  className="block h-11 w-full rounded-md bg-app-sidebar"
+                />
+              ),
+            },
+          ]}
+        />
+      );
+    },
+  },
+  {
+    slug: "option-list",
+    name: "OptionList",
+    blurb: "Full-width selectable rows — icon, label, description, check.",
+    Preview: function OptionListPreview() {
+      const [value, setValue] = React.useState("balanced");
+      return (
+        <OptionList
+          className="max-w-sm"
+          value={value}
+          onValueChange={setValue}
+          options={[
+            {
+              value: "balanced",
+              label: "Balanced",
+              description: "Panes split evenly.",
+              icon: PanelLeftRightDashed,
+            },
+            {
+              value: "editor-focus",
+              label: "Editor Focus",
+              description: "One pane takes most of the width.",
+              icon: TvMinimal,
+            },
+          ]}
+        />
+      );
+    },
+  },
+  {
+    slug: "option-palette",
+    name: "OptionPalette",
+    blurb:
+      "The --app-* theme picker — every palette as a card, grouped by hue, each previewing itself.",
+    Preview: function OptionPalettePreview() {
+      // Local state on purpose: picking here previews the choice without
+      // repainting the gallery around it. Wire onValueChange to the app's
+      // theming provider for the real thing.
+      const [value, setValue] = React.useState<ColorThemeKey>("midnight-dark");
+      return <OptionPalette value={value} onValueChange={setValue} />;
+    },
+  },
+  {
     slug: "popover",
     name: "Popover",
     blurb: "A small aside anchored to a control. Heavier edge than a tooltip.",
@@ -376,6 +531,42 @@ export const ENTRIES: Entry[] = [
             Second panel.
           </TabsContent>
         </Tabs>
+        <Tabs
+          defaultValue="theme"
+          orientation="vertical"
+          className="w-fit overflow-hidden rounded-lg border-2 border-app-border-mid"
+        >
+          <TabsList variant="nav">
+            <TabsTrigger value="theme">
+              <Palette size={14} />
+              Theme
+            </TabsTrigger>
+            <TabsTrigger value="layout">
+              <LayoutTemplate size={14} />
+              Layout
+            </TabsTrigger>
+            <TabsTrigger value="background">
+              <Grid2x2 size={14} />
+              Background
+            </TabsTrigger>
+            <TabsTrigger value="network">
+              <SlidersHorizontal size={14} />
+              Network
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="theme" className="p-3 text-xs text-app-dim">
+            Nav variant — a settings dialog&rsquo;s section rail.
+          </TabsContent>
+          <TabsContent value="layout" className="p-3 text-xs text-app-dim">
+            Layout panel.
+          </TabsContent>
+          <TabsContent value="background" className="p-3 text-xs text-app-dim">
+            Background panel.
+          </TabsContent>
+          <TabsContent value="network" className="p-3 text-xs text-app-dim">
+            Network panel.
+          </TabsContent>
+        </Tabs>
       </div>
     ),
   },
@@ -416,6 +607,24 @@ export const ENTRIES: Entry[] = [
           selected={date}
           onSelect={setDate}
           className="rounded-lg border border-app-border-mid"
+        />
+      );
+    },
+  },
+  {
+    slug: "data-table",
+    name: "DataTable",
+    blurb:
+      "Sortable, row-virtualized table — 5,000 rows here, ~20 in the DOM.",
+    peer: "@tanstack/react-table, @tanstack/react-virtual",
+    Preview: function DataTablePreview() {
+      return (
+        <DataTable
+          columns={REQUEST_COLUMNS}
+          data={REQUEST_ROWS}
+          getRowId={(r) => r.id}
+          height={320}
+          defaultSorting={[{ id: "ms", desc: true }]}
         />
       );
     },

@@ -2,20 +2,29 @@
 
 import {
   Bell,
+  Clock,
   Copy,
   Database,
   FileLock,
   FolderOpen,
+  Grid2x2,
   History,
+  LayoutTemplate,
   MoreVertical,
+  Palette,
+  PanelLeftRightDashed,
   Plus,
   Search,
   Send,
   Settings,
+  SlidersHorizontal,
   Trash2,
+  TvMinimal,
 } from "lucide-react";
 import * as React from "react";
 
+import { PaletteGrid } from "@/components/docs/palette-grid";
+import { TextureGrid } from "@/components/docs/texture-grid";
 import { PaletteSwitcher } from "@/components/palette-switcher";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
@@ -49,6 +58,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { Input } from "@/components/ui/input";
+import { OptionList } from "@/components/ui/option-list";
 import {
   Popover,
   PopoverContent,
@@ -81,6 +91,7 @@ import {
   SidebarRailButton,
   SidebarRailSpacer,
   SidebarRailTablist,
+  type SidebarTexture,
   SidebarTitle,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -100,6 +111,29 @@ const REQUESTS: Record<string, string[]> = {
   databases: ["primary", "analytics"],
   history: ["GET /users — 200", "POST /invoices — 201", "GET /users — 500"],
 };
+
+/** The Settings dialog's left nav rail — one {@link Tabs} `variant="nav"` entry per section. */
+const SETTINGS_SECTIONS = [
+  { id: "theme", label: "Theme", Icon: Palette },
+  { id: "layout", label: "Layout", Icon: LayoutTemplate },
+  { id: "background", label: "Background", Icon: Grid2x2 },
+  { id: "network", label: "Network", Icon: SlidersHorizontal },
+] as const;
+
+const LAYOUT_OPTIONS = [
+  {
+    value: "balanced",
+    label: "Balanced",
+    description: "Sidebar, editor and response split evenly.",
+    icon: PanelLeftRightDashed,
+  },
+  {
+    value: "editor-focus",
+    label: "Editor Focus",
+    description: "Editor takes most of the width; sidebar and response narrow.",
+    icon: TvMinimal,
+  },
+];
 
 /** Throws on demand so the response panel's ErrorBoundary has something real to catch. */
 function ResponseBody({ crashed }: { crashed: boolean }): React.ReactElement {
@@ -131,6 +165,13 @@ export default function DemoPage() {
   const [sending, setSending] = React.useState(false);
   const [sent, setSent] = React.useState(true);
   const [crashed, setCrashed] = React.useState(false);
+
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [settingsSection, setSettingsSection] =
+    React.useState<(typeof SETTINGS_SECTIONS)[number]["id"]>("theme");
+  const [layout, setLayout] = React.useState(LAYOUT_OPTIONS[0].value);
+  const [texture, setTexture] = React.useState<SidebarTexture>("none");
+  const [callTimeout, setCallTimeout] = React.useState("");
 
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -244,6 +285,80 @@ export default function DemoPage() {
         </CommandList>
       </CommandDialog>
 
+      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
+        <DialogContent className="h-[min(560px,88vh)] w-[min(820px,94vw)]">
+          <DialogHeader data-testid="demo-settings-header">
+            <DialogTitle>Settings</DialogTitle>
+          </DialogHeader>
+          <Tabs
+            value={settingsSection}
+            onValueChange={(v) =>
+              setSettingsSection(v as typeof settingsSection)
+            }
+            orientation="vertical"
+            className="min-h-0 flex-1"
+          >
+            <TabsList aria-label="Settings sections" variant="nav">
+              {SETTINGS_SECTIONS.map(({ id, label, Icon }) => (
+                <TabsTrigger key={id} value={id}>
+                  <Icon size={14} />
+                  {label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent
+              value="theme"
+              className="min-h-0 overflow-y-auto px-4 py-3"
+            >
+              <PaletteGrid />
+            </TabsContent>
+
+            <TabsContent
+              value="layout"
+              className="min-h-0 overflow-y-auto px-4 py-3"
+            >
+              <OptionList
+                value={layout}
+                onValueChange={setLayout}
+                options={LAYOUT_OPTIONS}
+              />
+            </TabsContent>
+
+            <TabsContent
+              value="background"
+              className="min-h-0 overflow-y-auto px-4 py-3"
+            >
+              <TextureGrid value={texture} onValueChange={setTexture} />
+            </TabsContent>
+
+            <TabsContent
+              value="network"
+              className="min-h-0 overflow-y-auto px-4 py-3"
+            >
+              <div className="flex items-center gap-2">
+                <Input
+                  icon={Clock}
+                  type="number"
+                  min={0}
+                  step={500}
+                  value={callTimeout}
+                  onChange={(e) => setCallTimeout(e.target.value)}
+                  onClear={() => setCallTimeout("")}
+                  placeholder="Enter timeout in ms…"
+                  aria-label="Call timeout"
+                  className="font-mono"
+                />
+                <span className="font-mono text-[11px] text-app-dim">ms</span>
+              </div>
+            </TabsContent>
+          </Tabs>
+          <DialogFooter>
+            <Button onClick={() => setSettingsOpen(false)}>Done</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <div className="min-h-0 flex-1">
         <ResizableGroup orientation="horizontal">
           <ResizablePanel defaultSize="20%" minSize="14%" maxSize="32%">
@@ -269,7 +384,10 @@ export default function DemoPage() {
                   ))}
                 </SidebarRailTablist>
                 <SidebarRailSpacer />
-                <SidebarRailButton aria-label="Settings">
+                <SidebarRailButton
+                  aria-label="Settings"
+                  onClick={() => setSettingsOpen(true)}
+                >
                   <Settings />
                 </SidebarRailButton>
               </SidebarRail>

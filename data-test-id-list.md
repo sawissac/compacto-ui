@@ -23,6 +23,12 @@ caller supplies no base, nothing is derived** — we never invent ids.
 | `ErrorBoundary` | `${base}-retry-button`                        | the retry button                                |
 | `Calendar`      | `${base}-day-<yyyy-mm-dd>`                    | each day button                                 |
 | `Calendar`      | `${base}-prev-button` / `${base}-next-button` | month navigation                                |
+| `OptionGrid`    | `${base}-<value>`                             | each card                                       |
+| `OptionList`    | `${base}-<value>`                             | each row                                        |
+| `OptionPalette` | `${base}-<hue>`                               | each hue's inner `OptionGrid`                   |
+| `OptionPalette` | `${base}-<hue>-<theme key>`                   | each palette card (via `OptionGrid`)            |
+| `DataTable`     | `${base}-header-<columnId>`                   | each header cell                                |
+| `DataTable`     | `${base}-row-<rowId>`                         | each rendered row (only rows in view exist)     |
 
 `Input`'s `-clear-button` suffix is deliberately byte-identical to the contract
 bulky-api already documents in its own registry, so that app's existing ids
@@ -45,9 +51,7 @@ DOM**. `react-resizable-panels` generates its own `data-testid` and `id` on
 both elements for layout persistence, and overwrites whatever we pass.
 
 Target them with `[data-slot="resizable-group"]` / `[data-slot="resizable-panel"]`,
-or put the test id on a wrapper element you control. The behaviour is pinned by
-a test in `tests/contract.test.tsx`, so if a future version of the library stops
-doing it we will find out from a failing test rather than from this paragraph.
+or put the test id on a wrapper element you control.
 
 ## Docs gallery
 

@@ -61,7 +61,14 @@ export default function Page() {
             >
               Installation
             </Link>{" "}
-            for the full protocol.
+            for the full protocol, and{" "}
+            <Link
+              href="/docs/skills"
+              className="text-app-accent hover:underline"
+            >
+              Skills
+            </Link>{" "}
+            for keeping the copies in sync afterwards.
           </p>
           <Code>{`import { Button } from "@/components/ui/button";`}</Code>
         </div>

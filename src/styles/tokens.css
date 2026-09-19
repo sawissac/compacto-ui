@@ -25,7 +25,7 @@
 
   /* Strength of the decorative panel texture (texture.css) — 0 to 1. Set it
      on an ancestor to tune one panel, here to tune all of them. */
-  --app-texture-alpha: 0.2;
+  --app-texture-alpha: 0.05;
 
   /* --- Surfaces --- */
   --app-bg: #f8fafc;

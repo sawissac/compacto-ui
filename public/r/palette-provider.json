@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "palette-provider",
+  "type": "registry:component",
+  "title": "PaletteProvider",
+  "description": "Reference theming provider: applies a color-themes palette to document.documentElement and exposes usePalette(). Copy it or fold the effect into your own provider.",
+  "dependencies": [],
+  "registryDependencies": [
+    "color-themes"
+  ],
+  "files": [
+    {
+      "path": "providers/palette-provider.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\n\nimport {\n  appThemeCssVars,\n  COLOR_THEMES,\n  type ColorThemeKey,\n} from \"@/lib/color-themes\";\n\ntype PaletteContext = {\n  palette: ColorThemeKey;\n  setPalette: (next: ColorThemeKey) => void;\n};\n\nconst Ctx = React.createContext<PaletteContext | null>(null);\n\n/**\n * Applies one of the library's twenty-three palettes to the document.\n *\n * This is the reference implementation of the theming contract the library\n * documents: write `appThemeCssVars(theme)` onto `document.documentElement`\n * and toggle `.dark` from `theme.isLight`. Copy it as-is (registry item\n * `palette-provider`) or fold the effect into whatever provider the host app\n * already has. Persistence is deliberately left to the caller — read the\n * saved key from wherever the app keeps settings and pass it as\n * `defaultPalette`, then save from `setPalette`'s consumer.\n *\n * Mount it once, above every component that renders `--app-*` colours —\n * typically in the root layout — and read it with {@link usePalette}.\n *\n * @param props.defaultPalette - The palette active on first render. Defaults\n *   to `\"light\"` (Chocolate), the one `tokens.css` already approximates before\n *   hydration, so the first frame does not flash.\n *\n * @example\n * ```tsx\n * <PaletteProvider defaultPalette=\"midnight-dark\">{children}</PaletteProvider>\n *\n * const { palette, setPalette } = usePalette();\n * <OptionPalette value={palette} onValueChange={setPalette} />\n * ```\n */\nexport function PaletteProvider({\n  children,\n  defaultPalette = \"light\",\n}: {\n  children: React.ReactNode;\n  defaultPalette?: ColorThemeKey;\n}) {\n  const [palette, setPalette] = React.useState<ColorThemeKey>(defaultPalette);\n\n  React.useEffect(() => {\n    const theme = COLOR_THEMES[palette];\n    const root = document.documentElement;\n    for (const [name, value] of Object.entries(appThemeCssVars(theme))) {\n      root.style.setProperty(name, value);\n    }\n    root.classList.toggle(\"dark\", !theme.isLight);\n  }, [palette]);\n\n  const value = React.useMemo(() => ({ palette, setPalette }), [palette]);\n  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;\n}\n\n/** The active palette key and its setter. Throws outside a {@link PaletteProvider}. */\nexport function usePalette() {\n  const ctx = React.useContext(Ctx);\n  if (!ctx) {\n    throw new Error(\"usePalette must be used inside a PaletteProvider\");\n  }\n  return ctx;\n}\n"
+    }
+  ]
+}

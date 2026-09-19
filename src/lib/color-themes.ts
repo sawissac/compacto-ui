@@ -21,7 +21,7 @@
  * ```ts
  * import { appThemeCssVars, COLOR_THEMES } from "@/lib/color-themes";
  *
- * const theme = COLOR_THEMES.midnight;
+ * const theme = COLOR_THEMES["midnight-dark"];
  * for (const [name, value] of Object.entries(appThemeCssVars(theme))) {
  *   document.documentElement.style.setProperty(name, value);
  * }
@@ -70,50 +70,58 @@ export interface ColorTheme {
 }
 
 export type ColorThemeKey =
-  | "midnight"
+  | "midnight-dark"
   | "midnight-light"
-  | "ocean"
+  | "ocean-dark"
   | "ocean-light"
   | "light"
-  | "purple"
+  | "purple-dark"
   | "purple-light"
-  | "green"
+  | "green-dark"
   | "green-light"
-  | "rose"
+  | "rose-dark"
   | "rose-light"
-  | "amber"
+  | "amber-dark"
   | "amber-light"
-  | "slate"
+  | "slate-dark"
   | "slate-light"
-  | "flat"
+  | "flat-dark"
   | "flat-light"
-  | "coffee"
-  | "coffee-light";
+  | "coffee-dark"
+  | "coffee-light"
+  | "cyberpunk-dark"
+  | "cyberpunk-light"
+  | "retro-dark"
+  | "retro-light";
 
 /** Display order for pickers — stable picker order, each dark theme next to its light counterpart. */
 export const COLOR_THEME_KEYS: ColorThemeKey[] = [
-  "midnight",
+  "midnight-dark",
   "midnight-light",
-  "ocean",
+  "ocean-dark",
   "ocean-light",
   "light",
-  "purple",
+  "purple-dark",
   "purple-light",
-  "green",
+  "green-dark",
   "green-light",
-  "rose",
+  "rose-dark",
   "rose-light",
-  "amber",
+  "amber-dark",
   "amber-light",
-  "slate",
+  "slate-dark",
   "slate-light",
-  "flat",
+  "flat-dark",
   "flat-light",
-  "coffee",
+  "coffee-dark",
   "coffee-light",
+  "cyberpunk-dark",
+  "cyberpunk-light",
+  "retro-dark",
+  "retro-light",
 ];
 
-/** One hue's dark theme paired with its light counterpart, for UI that groups them rather than listing all nineteen flat. */
+/** One hue's dark theme paired with its light counterpart, for UI that groups them rather than listing all twenty-three flat. */
 export interface ColorThemePair {
   label: string;
   dark?: ColorThemeKey;
@@ -125,20 +133,22 @@ export interface ColorThemePair {
  * counterpart, so it is the one pair with only a `light` side.
  */
 export const COLOR_THEME_PAIRS: ColorThemePair[] = [
-  { label: "Midnight", dark: "midnight", light: "midnight-light" },
-  { label: "Ocean", dark: "ocean", light: "ocean-light" },
+  { label: "Midnight", dark: "midnight-dark", light: "midnight-light" },
+  { label: "Ocean", dark: "ocean-dark", light: "ocean-light" },
   { label: "Chocolate", light: "light" },
-  { label: "Purple", dark: "purple", light: "purple-light" },
-  { label: "Green", dark: "green", light: "green-light" },
-  { label: "Rose", dark: "rose", light: "rose-light" },
-  { label: "Amber", dark: "amber", light: "amber-light" },
-  { label: "Slate", dark: "slate", light: "slate-light" },
-  { label: "Flat", dark: "flat", light: "flat-light" },
-  { label: "Coffee", dark: "coffee", light: "coffee-light" },
+  { label: "Amethyst", dark: "purple-dark", light: "purple-light" },
+  { label: "Nature", dark: "green-dark", light: "green-light" },
+  { label: "Rose", dark: "rose-dark", light: "rose-light" },
+  { label: "Amber", dark: "amber-dark", light: "amber-light" },
+  { label: "Slate", dark: "slate-dark", light: "slate-light" },
+  { label: "Sunset", dark: "flat-dark", light: "flat-light" },
+  { label: "Coffee", dark: "coffee-dark", light: "coffee-light" },
+  { label: "Cyberpunk", dark: "cyberpunk-dark", light: "cyberpunk-light" },
+  { label: "Retro", dark: "retro-dark", light: "retro-light" },
 ];
 
 export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
-  midnight: {
+  "midnight-dark": {
     bg: "#060d1a",
     bgPanel: "#09111f",
     bgSidebar: "#070e1c",
@@ -159,7 +169,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.midnight} — same cyan accent, darkened for contrast on a pale cyan-tinted canvas. */
+  /** Light counterpart of `COLOR_THEMES["midnight-dark"]` — same cyan accent, darkened for contrast on a pale cyan-tinted canvas. */
   "midnight-light": {
     isLight: true,
     bg: "#eef8fb",
@@ -182,7 +192,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#b45309",
     error: "#b91c1c",
   },
-  ocean: {
+  "ocean-dark": {
     bg: "#061525",
     bgPanel: "#0a2035",
     bgSidebar: "#051220",
@@ -203,7 +213,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.ocean} — same sky-blue accent, darkened for contrast on a pale blue-tinted canvas. */
+  /** Light counterpart of `COLOR_THEMES["ocean-dark"]` — same sky-blue accent, darkened for contrast on a pale blue-tinted canvas. */
   "ocean-light": {
     isLight: true,
     bg: "#eaf3fb",
@@ -253,7 +263,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#b45309",
     error: "#b91c1c",
   },
-  purple: {
+  "purple-dark": {
     bg: "#170f23",
     bgPanel: "#1f1430",
     bgSidebar: "#1a1027",
@@ -274,7 +284,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.purple} — same violet accent, darkened for contrast on a pale violet-tinted canvas. */
+  /** Light counterpart of `COLOR_THEMES["purple-dark"]` — same violet accent, darkened for contrast on a pale violet-tinted canvas. */
   "purple-light": {
     isLight: true,
     bg: "#f4eefb",
@@ -297,7 +307,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#b45309",
     error: "#b91c1c",
   },
-  green: {
+  "green-dark": {
     bg: "#0f1c13",
     bgPanel: "#132418",
     bgSidebar: "#111f15",
@@ -318,7 +328,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.green} — same emerald accent, darkened for contrast on a pale green-tinted canvas. */
+  /** Light counterpart of `COLOR_THEMES["green-dark"]` — same emerald accent, darkened for contrast on a pale green-tinted canvas. */
   "green-light": {
     isLight: true,
     bg: "#eafbf2",
@@ -341,7 +351,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#b45309",
     error: "#b91c1c",
   },
-  rose: {
+  "rose-dark": {
     bg: "#1a0f12",
     bgPanel: "#231319",
     bgSidebar: "#160c0f",
@@ -362,7 +372,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.rose} — same rose accent, darkened for contrast on a pale pink-tinted canvas. */
+  /** Light counterpart of `COLOR_THEMES["rose-dark"]` — same rose accent, darkened for contrast on a pale pink-tinted canvas. */
   "rose-light": {
     isLight: true,
     bg: "#fdedf0",
@@ -385,7 +395,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#b45309",
     error: "#b91c1c",
   },
-  amber: {
+  "amber-dark": {
     bg: "#1a1408",
     bgPanel: "#22190a",
     bgSidebar: "#150f05",
@@ -406,7 +416,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.amber} — same gold accent, darkened for contrast on a pale amber-tinted canvas. */
+  /** Light counterpart of `COLOR_THEMES["amber-dark"]` — same gold accent, darkened for contrast on a pale amber-tinted canvas. */
   "amber-light": {
     isLight: true,
     bg: "#fdf6e6",
@@ -429,7 +439,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#9a3412",
     error: "#b91c1c",
   },
-  slate: {
+  "slate-dark": {
     bg: "#0d1117",
     bgPanel: "#161b22",
     bgSidebar: "#0d1117",
@@ -450,7 +460,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.slate} — same neutral gray-blue accent on a pale neutral canvas. */
+  /** Light counterpart of `COLOR_THEMES["slate-dark"]` — same neutral gray-blue accent on a pale neutral canvas. */
   "slate-light": {
     isLight: true,
     bg: "#f4f5f7",
@@ -474,7 +484,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     error: "#b91c1c",
   },
   /** Sunset: warm dusk theme — coral-orange accent over deep charcoal-brown panels. */
-  flat: {
+  "flat-dark": {
     bg: "#1c1410",
     bgPanel: "#241a14",
     bgSidebar: "#181009",
@@ -495,7 +505,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.flat} — same coral accent, darkened for contrast on a pale peach canvas. */
+  /** Light counterpart of `COLOR_THEMES["flat-dark"]` — same coral accent, darkened for contrast on a pale peach canvas. */
   "flat-light": {
     isLight: true,
     bg: "#fef1eb",
@@ -518,7 +528,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#b45309",
     error: "#b91c1c",
   },
-  coffee: {
+  "coffee-dark": {
     bg: "#1b120c",
     bgPanel: "#241a12",
     bgSidebar: "#170f0a",
@@ -539,7 +549,7 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     warn: "#f59e0b",
     error: "#ef4444",
   },
-  /** Light counterpart of {@link COLOR_THEMES.coffee} — same tan accent, deepened to a caramel for contrast on a pale cream canvas. */
+  /** Light counterpart of `COLOR_THEMES["coffee-dark"]` — same tan accent, deepened to a caramel for contrast on a pale cream canvas. */
   "coffee-light": {
     isLight: true,
     bg: "#f7ede1",
@@ -558,6 +568,104 @@ export const COLOR_THEMES: Record<ColorThemeKey, ColorTheme> = {
     textDim: "#7c5f42",
     editorBg: "#fffaf3",
     gutterBg: "#f1e2cc",
+    success: "#15803d",
+    warn: "#b45309",
+    error: "#b91c1c",
+  },
+  /**
+   * Cyberpunk: hot-magenta neon on a blue-black canvas with cyan-tinted text.
+   * The canvas is deliberately blue rather than violet — a violet canvas
+   * with a magenta accent collapses into Amethyst — and the status colors
+   * are pushed to neon (mint / yellow / hot red) to match.
+   */
+  "cyberpunk-dark": {
+    bg: "#050810",
+    bgPanel: "#0b101c",
+    bgSidebar: "#03050b",
+    bgHover: "rgba(255,255,255,0.03)",
+    bgSelected: "rgba(255,43,214,0.12)",
+    border: "rgba(255,43,214,0.12)",
+    borderMid: "rgba(255,43,214,0.22)",
+    borderAccent: "rgba(255,43,214,0.45)",
+    accent: "#ff2bd6",
+    accentDim: "rgba(255,43,214,0.55)",
+    accentFaint: "rgba(255,43,214,0.08)",
+    text: "#8fd8e6",
+    textBright: "#e8fbff",
+    textDim: "rgba(143,216,230,0.6)",
+    editorBg: "#03050b",
+    gutterBg: "#050810",
+    success: "#2ee6a6",
+    warn: "#ffd23f",
+    error: "#ff3b5c",
+  },
+  /** Light counterpart of `COLOR_THEMES["cyberpunk-dark"]` — same magenta accent, deepened for contrast on a cool blue-grey canvas with teal-slate text. */
+  "cyberpunk-light": {
+    isLight: true,
+    bg: "#eef4f8",
+    bgPanel: "#ffffff",
+    bgSidebar: "#dfe9f1",
+    bgHover: "rgba(10,40,55,0.05)",
+    bgSelected: "rgba(194,16,156,0.12)",
+    border: "rgba(10,40,55,0.12)",
+    borderMid: "rgba(10,40,55,0.22)",
+    borderAccent: "rgba(194,16,156,0.45)",
+    accent: "#c2109c",
+    accentDim: "#d055b7",
+    accentFaint: "rgba(194,16,156,0.1)",
+    text: "#123a47",
+    textBright: "#07222c",
+    textDim: "#4f7683",
+    editorBg: "#ffffff",
+    gutterBg: "#e4edf4",
+    success: "#15803d",
+    warn: "#b45309",
+    error: "#b91c1c",
+  },
+  /**
+   * Retro: seventies mustard on deep teal. Cream-leaning text keeps the
+   * canvas warm rather than reading as another blue-green dark theme.
+   */
+  "retro-dark": {
+    bg: "#0f2321",
+    bgPanel: "#163331",
+    bgSidebar: "#0b1c1a",
+    bgHover: "rgba(255,255,255,0.03)",
+    bgSelected: "rgba(217,164,65,0.13)",
+    border: "rgba(217,164,65,0.12)",
+    borderMid: "rgba(217,164,65,0.22)",
+    borderAccent: "rgba(217,164,65,0.42)",
+    accent: "#d9a441",
+    accentDim: "rgba(217,164,65,0.55)",
+    accentFaint: "rgba(217,164,65,0.08)",
+    text: "#d8cbb0",
+    textBright: "#f8f1e0",
+    textDim: "rgba(216,203,176,0.6)",
+    editorBg: "#0b1b19",
+    gutterBg: "#0f2321",
+    success: "#4ade80",
+    warn: "#f59e0b",
+    error: "#f87171",
+  },
+  /** Light counterpart of `COLOR_THEMES["retro-dark"]` — same mustard accent, deepened to an ochre for contrast on an aged-paper cream canvas. */
+  "retro-light": {
+    isLight: true,
+    bg: "#f5eed8",
+    bgPanel: "#fffaea",
+    bgSidebar: "#ebe1c2",
+    bgHover: "rgba(58,44,10,0.05)",
+    bgSelected: "rgba(154,107,11,0.14)",
+    border: "rgba(58,44,10,0.14)",
+    borderMid: "rgba(58,44,10,0.24)",
+    borderAccent: "rgba(154,107,11,0.45)",
+    accent: "#9a6b0b",
+    accentDim: "#b28a3b",
+    accentFaint: "rgba(154,107,11,0.1)",
+    text: "#463514",
+    textBright: "#2a1f08",
+    textDim: "#7d6a42",
+    editorBg: "#fffaea",
+    gutterBg: "#efe5c9",
     success: "#15803d",
     warn: "#b45309",
     error: "#b91c1c",

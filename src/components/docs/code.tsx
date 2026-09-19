@@ -1,15 +1,26 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Check, Copy } from "lucide-react";
 import * as React from "react";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 
 /**
  * A copyable code line. No syntax highlighting: every snippet here is an
  * import statement or a shell command, and a highlighter would be a megabyte
  * of dependency to colour four tokens.
+ *
+ * `block` is for a multi-line paragraph of text (a prompt to paste into an
+ * agent): wraps instead of scrolling, copy button pinned to the top corner.
  */
-export function Code({ children }: { children: string }) {
+export function Code({
+  children,
+  block = false,
+}: {
+  children: string;
+  block?: boolean;
+}) {
   const [copied, setCopied] = React.useState(false);
 
   const copy = async () => {
@@ -24,8 +35,20 @@ export function Code({ children }: { children: string }) {
   };
 
   return (
-    <div className="group relative flex items-center gap-2 rounded-md border border-app-border-mid bg-app-editor pr-1 pl-3">
-      <code className="min-w-0 flex-1 overflow-x-auto py-2.5 font-mono text-[12px] whitespace-pre text-app-text">
+    <div
+      className={cn(
+        "group relative flex gap-2 rounded-md border border-app-border-mid bg-app-editor pr-1 pl-3",
+        block ? "items-start pt-1" : "items-center",
+      )}
+    >
+      <code
+        className={cn(
+          "min-w-0 flex-1 py-2.5 font-mono text-[12px] text-app-text",
+          block
+            ? "leading-relaxed whitespace-pre-wrap"
+            : "overflow-x-auto whitespace-pre",
+        )}
+      >
         {children}
       </code>
       <Button

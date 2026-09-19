@@ -9,8 +9,7 @@ import { twMerge } from "tailwind-merge";
  *
  * Every primitive in this library calls it with the caller's `className` in
  * last position. That ordering is the whole contract: it is what lets a
- * consumer override any built-in class without fighting specificity, and
- * `tests/contract.test.tsx` asserts it for all fifteen.
+ * consumer override any built-in class without fighting specificity.
  *
  * @param inputs - Class values: strings, arrays, or conditional objects.
  * @returns A single merged, conflict-free className string.

@@ -11,7 +11,11 @@
       "description": "clsx + tailwind-merge class combiner. Every primitive in this library calls it with the caller's className last.",
       "dependencies": ["clsx", "tailwind-merge"],
       "files": [
-        { "source": "src/lib/cn.ts", "target": "lib/cn.ts", "type": "registry:lib" }
+        {
+          "source": "src/lib/cn.ts",
+          "target": "lib/cn.ts",
+          "type": "registry:lib"
+        }
       ]
     },
     {
@@ -22,17 +26,25 @@
       "dependencies": ["class-variance-authority"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/lib/ui-styles.ts", "target": "lib/ui-styles.ts", "type": "registry:lib" }
+        {
+          "source": "src/lib/ui-styles.ts",
+          "target": "lib/ui-styles.ts",
+          "type": "registry:lib"
+        }
       ]
     },
     {
       "name": "color-themes",
       "type": "registry:lib",
       "title": "color-themes",
-      "description": "Ten complete --app-* palettes plus appThemeCssVars() to apply one at runtime.",
+      "description": "Twenty-three complete --app-* palettes across twelve hues, plus appThemeCssVars() to apply one at runtime.",
       "dependencies": [],
       "files": [
-        { "source": "src/lib/color-themes.ts", "target": "lib/color-themes.ts", "type": "registry:lib" }
+        {
+          "source": "src/lib/color-themes.ts",
+          "target": "lib/color-themes.ts",
+          "type": "registry:lib"
+        }
       ]
     },
     {
@@ -42,10 +54,26 @@
       "description": "--app-* token definitions, theme palette wiring and base keyframes. Install once per app; every component below depends on these variables existing.",
       "dependencies": [],
       "files": [
-        { "source": "src/styles/tokens.css", "target": "styles/compacto/tokens.css", "type": "registry:file" },
-        { "source": "src/styles/theme.css", "target": "styles/compacto/theme.css", "type": "registry:file" },
-        { "source": "src/styles/texture.css", "target": "styles/compacto/texture.css", "type": "registry:file" },
-        { "source": "src/styles/index.css", "target": "styles/compacto/index.css", "type": "registry:file" }
+        {
+          "source": "src/styles/tokens.css",
+          "target": "styles/compacto/tokens.css",
+          "type": "registry:file"
+        },
+        {
+          "source": "src/styles/theme.css",
+          "target": "styles/compacto/theme.css",
+          "type": "registry:file"
+        },
+        {
+          "source": "src/styles/texture.css",
+          "target": "styles/compacto/texture.css",
+          "type": "registry:file"
+        },
+        {
+          "source": "src/styles/index.css",
+          "target": "styles/compacto/index.css",
+          "type": "registry:file"
+        }
       ]
     },
     {
@@ -55,7 +83,26 @@
       "description": "Optional bridge that maps shadcn's semantic tokens (bg-primary, border-border, ...) onto --app-*, for apps mid-migration off shadcn. Scheduled for deletion in v2 — do not add new dependents.",
       "dependencies": [],
       "files": [
-        { "source": "src/styles/compat-shadcn.css", "target": "styles/compacto/compat-shadcn.css", "type": "registry:file" }
+        {
+          "source": "src/styles/compat-shadcn.css",
+          "target": "styles/compacto/compat-shadcn.css",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "palette-provider",
+      "type": "registry:component",
+      "title": "PaletteProvider",
+      "description": "Reference theming provider: applies a color-themes palette to document.documentElement and exposes usePalette(). Copy it or fold the effect into your own provider.",
+      "dependencies": [],
+      "registryDependencies": ["color-themes"],
+      "files": [
+        {
+          "source": "src/providers/palette-provider.tsx",
+          "target": "providers/palette-provider.tsx",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -66,7 +113,11 @@
       "dependencies": ["class-variance-authority", "radix-ui"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/button.tsx", "target": "components/ui/button.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/button.tsx",
+          "target": "components/ui/button.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -77,7 +128,11 @@
       "dependencies": ["class-variance-authority"],
       "registryDependencies": ["cn", "separator"],
       "files": [
-        { "source": "src/components/ui/button-group.tsx", "target": "components/ui/button-group.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/button-group.tsx",
+          "target": "components/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -88,7 +143,11 @@
       "dependencies": ["react-day-picker", "date-fns", "lucide-react"],
       "registryDependencies": ["cn", "button"],
       "files": [
-        { "source": "src/components/ui/calendar.tsx", "target": "components/ui/calendar.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/calendar.tsx",
+          "target": "components/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -99,7 +158,30 @@
       "dependencies": ["cmdk", "lucide-react"],
       "registryDependencies": ["cn", "dialog"],
       "files": [
-        { "source": "src/components/ui/command.tsx", "target": "components/ui/command.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/command.tsx",
+          "target": "components/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "DataTable",
+      "description": "Sortable, row-virtualized table over @tanstack/react-table v9 + @tanstack/react-virtual. Reach for it for any list of more than a screenful of rows.",
+      "dependencies": [
+        "@tanstack/react-table",
+        "@tanstack/react-virtual",
+        "lucide-react"
+      ],
+      "registryDependencies": ["cn"],
+      "files": [
+        {
+          "source": "src/components/ui/data-table.tsx",
+          "target": "components/ui/data-table.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -110,7 +192,11 @@
       "dependencies": ["radix-ui", "lucide-react"],
       "registryDependencies": ["cn", "button"],
       "files": [
-        { "source": "src/components/ui/dialog.tsx", "target": "components/ui/dialog.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/dialog.tsx",
+          "target": "components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -121,7 +207,11 @@
       "dependencies": ["radix-ui", "lucide-react"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/dropdown-menu.tsx", "target": "components/ui/dropdown-menu.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/dropdown-menu.tsx",
+          "target": "components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -132,7 +222,11 @@
       "dependencies": ["lucide-react"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/error-boundary.tsx", "target": "components/ui/error-boundary.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/error-boundary.tsx",
+          "target": "components/ui/error-boundary.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -143,7 +237,56 @@
       "dependencies": ["lucide-react"],
       "registryDependencies": ["cn", "ui-styles"],
       "files": [
-        { "source": "src/components/ui/input.tsx", "target": "components/ui/input.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/input.tsx",
+          "target": "components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "option-grid",
+      "type": "registry:ui",
+      "title": "OptionGrid",
+      "description": "Grid of standalone choice cards — caller-sized swatch, label, optional description — for a choice that benefits from a real preview.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn"],
+      "files": [
+        {
+          "source": "src/components/ui/option-grid.tsx",
+          "target": "components/ui/option-grid.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "option-list",
+      "type": "registry:ui",
+      "title": "OptionList",
+      "description": "Segmented list of full-width selectable rows — icon, label, one-line description, trailing check.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn"],
+      "files": [
+        {
+          "source": "src/components/ui/option-list.tsx",
+          "target": "components/ui/option-list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "option-palette",
+      "type": "registry:ui",
+      "title": "OptionPalette",
+      "description": "The --app-* theme picker: every palette as a card, grouped by hue, each previewing the theme it selects.",
+      "dependencies": [],
+      "registryDependencies": ["cn", "color-themes", "option-grid"],
+      "files": [
+        {
+          "source": "src/components/ui/option-palette.tsx",
+          "target": "components/ui/option-palette.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -154,7 +297,11 @@
       "dependencies": ["radix-ui"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/popover.tsx", "target": "components/ui/popover.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/popover.tsx",
+          "target": "components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -165,7 +312,11 @@
       "dependencies": ["react-resizable-panels"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/resizable.tsx", "target": "components/ui/resizable.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/resizable.tsx",
+          "target": "components/ui/resizable.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -176,7 +327,11 @@
       "dependencies": ["radix-ui", "lucide-react"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/select.tsx", "target": "components/ui/select.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/select.tsx",
+          "target": "components/ui/select.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -187,7 +342,11 @@
       "dependencies": ["radix-ui"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/separator.tsx", "target": "components/ui/separator.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/separator.tsx",
+          "target": "components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -198,7 +357,11 @@
       "dependencies": ["class-variance-authority", "radix-ui"],
       "registryDependencies": ["cn", "ui-styles"],
       "files": [
-        { "source": "src/components/ui/sidebar.tsx", "target": "components/ui/sidebar.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/sidebar.tsx",
+          "target": "components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -209,7 +372,11 @@
       "dependencies": [],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/skeleton.tsx", "target": "components/ui/skeleton.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/skeleton.tsx",
+          "target": "components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -220,7 +387,11 @@
       "dependencies": ["class-variance-authority", "radix-ui"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/tabs.tsx", "target": "components/ui/tabs.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/tabs.tsx",
+          "target": "components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -231,7 +402,11 @@
       "dependencies": ["radix-ui"],
       "registryDependencies": ["cn"],
       "files": [
-        { "source": "src/components/ui/tooltip.tsx", "target": "components/ui/tooltip.tsx", "type": "registry:ui" }
+        {
+          "source": "src/components/ui/tooltip.tsx",
+          "target": "components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
       ]
     }
   ]

@@ -1,0 +1,37 @@
+# compacto-ui
+
+> Flat, token-driven React 19 + Tailwind v4 primitives, distributed shadcn-style: components are copied into your app, not installed from npm. One `--app-*` colour vocabulary, twenty-three complete palettes, no `dark:` variants.
+
+Start here if you are an AI agent asked to "add compacto-ui's Button", "use this design system", or "make this app look like compacto-ui".
+
+## How to consume
+
+- [AI-REFERENCE.md](AI-REFERENCE.md): the copy protocol — manifest shape, resolution algorithm, exact commands, raw URLs, verification checklist. Read this first.
+- [DESIGN.md](DESIGN.md): the design language — tokens, type scale, states, motion — for reproducing the look in components you write yourself, or in a non-React stack.
+- [CLAUDE.md](CLAUDE.md): code-style contract every primitive follows; write new components in a consumer to the same rules so they match.
+- [data-test-id-list.md](data-test-id-list.md): the `data-testid` derivation contract.
+
+## Skills (for the consuming repo)
+
+- [skills/cui-diff/SKILL.md](skills/cui-diff/SKILL.md): `/cui-diff` — report which copied components are out of sync with upstream. Read-only.
+- [skills/cui-sync/SKILL.md](skills/cui-sync/SKILL.md): `/cui-sync` — rewrite outdated copies from upstream, resolve registry deps, list npm packages to add.
+- Install: fetch both into the consumer's `.claude/skills/<name>/SKILL.md`. Prompt in README → Skills.
+
+## Machine-readable
+
+- [registry.json](registry.json): manifest of every item — name, type, npm `dependencies`, `registryDependencies`, source → target paths.
+- [public/r/registry.json](public/r/registry.json): index of built items.
+- [public/r/<name>.json](public/r/): one self-contained item per component with file `content` inlined — what the `shadcn` CLI or an agent actually copies. Raw URL pattern: `https://raw.githubusercontent.com/sawissac/compacto-ui/main/public/r/<name>.json`.
+
+## Source
+
+- [src/components/ui/](src/components/ui/): every primitive, one file each, JSDoc at the top of each file.
+- [src/lib/](src/lib/): `cn`, `ui-styles` (class recipes), `color-themes` (palette data).
+- [src/styles/](src/styles/): `tokens.css`, `theme.css`, `texture.css`, `index.css`, optional `compat-shadcn.css`.
+- [src/providers/palette-provider.tsx](src/providers/palette-provider.tsx): reference theming provider.
+- [src/catalog/api.ts](src/catalog/api.ts): per-component props, exports and gotchas as plain data.
+
+## Optional
+
+- [README.md](README.md): human overview, gallery dev instructions.
+- [src/app/docs/](src/app/docs/): the docs gallery (Next.js) — every primitive live across every palette. `pnpm dev`, port 3100.

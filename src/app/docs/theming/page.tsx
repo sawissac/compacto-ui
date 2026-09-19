@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <PageShell
       title="Theming"
-      lede="Ten complete palettes. Pick one and every primitive below follows — this page is itself the reference implementation."
+      lede="Twenty-three complete palettes across twelve hues. Pick one and every primitive below follows — this page is itself the reference implementation."
       toc={[
         { id: "palettes", label: "Palettes" },
         { id: "applying", label: "Applying a palette" },
