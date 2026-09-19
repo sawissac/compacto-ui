@@ -1,0 +1,24 @@
+/* The docs app deliberately uses the EXACT snippet the README tells consumers
+   to use — nothing more. If the gallery renders, the published contract works;
+   if it doesn't, a consumer would have hit the same wall. This file is also
+   what prettier-plugin-tailwindcss points at as `tailwindStylesheet`, since it
+   is the only stylesheet in the repo that imports Tailwind itself. */
+@import "tailwindcss";
+@import "@compacto/ui/styles.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Supply this app's faces to the package's font namespaces. */
+:root {
+  --app-font-sans: var(--font-open-sans);
+  --app-font-title: var(--font-poppins);
+  --app-font-display: var(--font-poppins);
+  --app-font-description: var(--font-open-sans);
+  --app-font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--font-sans);
+}

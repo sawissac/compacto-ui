@@ -1,0 +1,10 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@arethetypeswrong/cli/docs/config-schema.json",
+  "profile": "esm-only",
+  "excludeEntrypoints": [
+    "styles.css",
+    "tokens.css",
+    "theme.css",
+    "compat-shadcn.css"
+  ]
+}

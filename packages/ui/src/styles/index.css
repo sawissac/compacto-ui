@@ -1,0 +1,9 @@
+/* @compacto/ui — the one import a consumer needs.
+ *
+ *   @import "tailwindcss";
+ *   @import "@compacto/ui/styles.css";
+ *
+ * Order matters: tokens define the custom properties, theme maps them into
+ * Tailwind's namespace and registers the package's own scan path. */
+@import "./tokens.css";
+@import "./theme.css";
