@@ -121,5 +121,8 @@ publishes, so a broken package cannot ship. Needs `npm login` once.
 ## Contributing
 
 `CLAUDE.md` is the code-style contract. `pnpm gates` enforces the token rules
-mechanically. CI runs format, lint, typecheck, gates, build and tests on every
-push.
+mechanically. There is no CI; run the checks before you commit:
+
+```bash
+pnpm format:check && pnpm lint && pnpm typecheck && pnpm gates && pnpm build && pnpm test
+```
