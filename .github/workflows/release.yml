@@ -12,8 +12,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      # Required for npm provenance attestation, which packages/ui requests
-      # via publishConfig.provenance.
+      # Required for npm provenance attestation, which the publish step
+      # requests via NPM_CONFIG_PROVENANCE below.
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -40,3 +40,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Provenance attestation — only possible here, where the job has an
+          # OIDC token. Not set in package.json so a local publish still works.
+          NPM_CONFIG_PROVENANCE: "true"

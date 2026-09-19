@@ -13,8 +13,7 @@
     "directory": "packages/ui"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "files": [
     "dist",
@@ -109,7 +108,8 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "pnpm run clean && pnpm run build:js && pnpm run build:types && pnpm run build:css && pnpm run directives && pnpm run verify",
+    "build": "pnpm run build:core && pnpm run verify",
+    "build:core": "pnpm run clean && pnpm run build:js && pnpm run build:types && pnpm run build:css && pnpm run directives",
     "clean": "rm -rf dist",
     "build:js": "tsup",
     "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly",
@@ -120,7 +120,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build:core"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
