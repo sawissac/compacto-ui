@@ -105,11 +105,21 @@ silent — classes simply missing. Add an explicit source:
 @source "../../node_modules/.pnpm/@compacto+ui@*/node_modules/@compacto/ui/dist";
 ```
 
+## Releasing
+
+Manual, from your machine. No release bot, no version PR.
+
+```bash
+pnpm changeset            # describe the change (optional but writes the CHANGELOG)
+pnpm version-packages     # bump the version, fold changesets into CHANGELOG.md
+pnpm release              # build, verify, publish to npm
+```
+
+`pnpm release` runs the full build (directive check, publint, attw) before it
+publishes, so a broken package cannot ship. Needs `npm login` once.
+
 ## Contributing
 
 `CLAUDE.md` is the code-style contract. `pnpm gates` enforces the token rules
-mechanically. Every change to `packages/ui` needs a changeset:
-
-```bash
-pnpm changeset
-```
+mechanically. CI runs format, lint, typecheck, gates, build and tests on every
+push.
