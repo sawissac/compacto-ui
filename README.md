@@ -107,16 +107,17 @@ silent — classes simply missing. Add an explicit source:
 
 ## Releasing
 
-Manual, from your machine. No release bot, no version PR.
+Manual, from your machine, after `npm login` once.
 
 ```bash
-pnpm changeset            # describe the change (optional but writes the CHANGELOG)
-pnpm version-packages     # bump the version, fold changesets into CHANGELOG.md
-pnpm release              # build, verify, publish to npm
+cd packages/ui && npm version minor   # or patch / major — commits and tags
+cd ../.. && pnpm release              # full build + verification, then publish
 ```
 
-`pnpm release` runs the full build (directive check, publint, attw) before it
-publishes, so a broken package cannot ship. Needs `npm login` once.
+`pnpm release` refuses to publish from a dirty tree or a branch other than
+`main`, and the build it runs first ends in the directive check, publint and
+attw — so a broken package cannot ship. Add a line to
+`packages/ui/CHANGELOG.md` by hand when you bump.
 
 ## Contributing
 

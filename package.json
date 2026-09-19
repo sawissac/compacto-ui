@@ -18,12 +18,9 @@
     "format:check": "prettier --check .",
     "test": "pnpm --filter @compacto/ui test",
     "gates": "bash scripts/gates.sh",
-    "changeset": "changeset",
-    "version-packages": "changeset version && pnpm install --lockfile-only",
-    "release": "pnpm --filter @compacto/ui build && changeset publish"
+    "release": "pnpm --filter @compacto/ui build && pnpm --filter @compacto/ui publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.0",
     "@types/node": "^20",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
