@@ -55,7 +55,7 @@
       "name": "calendar",
       "type": "registry:ui",
       "title": "Calendar",
-      "description": "Month-grid calendar over react-day-picker, restyled for the flat design system."
+      "description": "Month-grid calendar over react-day-picker, plus a scrollable column of time slots: date, time or datetime via `granularity`."
     },
     {
       "name": "command",
@@ -67,7 +67,13 @@
       "name": "data-table",
       "type": "registry:ui",
       "title": "DataTable",
-      "description": "Sortable, row-virtualized table over @tanstack/react-table v9 + @tanstack/react-virtual. Reach for it for any list of more than a screenful of rows."
+      "description": "Sortable, column-resizable, row-virtualized table over @tanstack/react-table v9 + @tanstack/react-virtual."
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "DatePicker",
+      "description": "Field-shaped trigger button that opens Calendar in a popover: one Date in and out, date, time or datetime via `granularity`."
     },
     {
       "name": "dialog",
@@ -86,6 +92,12 @@
       "type": "registry:ui",
       "title": "Error Boundary",
       "description": "Class-based error boundary with a flat fallback UI and reset control. Server-safe."
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "FileUpload",
+      "description": "Dashed drop well over react-dropzone plus an upload list: accept map, max size and max count enforced before the caller sees a File; rows show progress, done or failed with retry."
     },
     {
       "name": "input",
@@ -118,6 +130,12 @@
       "description": "Popover root over radix-ui: trigger, content, anchor."
     },
     {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Determinate progress bar split into a filled run and a remainder, each collapsing to a pip at its own extreme. Indeterminate via value={null}."
+    },
+    {
       "name": "resizable",
       "type": "registry:ui",
       "title": "Resizable",
@@ -146,6 +164,12 @@
       "type": "registry:ui",
       "title": "Skeleton",
       "description": "Placeholder block shown while content loads. Server-safe."
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Single-value slider on the progress anatomy: filled run, capsule thumb centred in the gap, pip at each end. Scalar value, not an array."
     },
     {
       "name": "tabs",

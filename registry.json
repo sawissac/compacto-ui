@@ -139,7 +139,7 @@
       "name": "calendar",
       "type": "registry:ui",
       "title": "Calendar",
-      "description": "Month-grid calendar over react-day-picker, restyled for the flat design system.",
+      "description": "Month-grid calendar over react-day-picker, plus a scrollable column of time slots: date, time or datetime via `granularity`.",
       "dependencies": ["react-day-picker", "date-fns", "lucide-react"],
       "registryDependencies": ["cn", "button"],
       "files": [
@@ -169,7 +169,7 @@
       "name": "data-table",
       "type": "registry:ui",
       "title": "DataTable",
-      "description": "Sortable, row-virtualized table over @tanstack/react-table v9 + @tanstack/react-virtual. Reach for it for any list of more than a screenful of rows.",
+      "description": "Sortable, column-resizable, row-virtualized table over @tanstack/react-table v9 + @tanstack/react-virtual.",
       "dependencies": [
         "@tanstack/react-table",
         "@tanstack/react-virtual",
@@ -180,6 +180,21 @@
         {
           "source": "src/components/ui/data-table.tsx",
           "target": "components/ui/data-table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "DatePicker",
+      "description": "Field-shaped trigger button that opens Calendar in a popover: one Date in and out, date, time or datetime via `granularity`.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn", "button", "calendar", "popover"],
+      "files": [
+        {
+          "source": "src/components/ui/date-picker.tsx",
+          "target": "components/ui/date-picker.tsx",
           "type": "registry:ui"
         }
       ]
@@ -225,6 +240,21 @@
         {
           "source": "src/components/ui/error-boundary.tsx",
           "target": "components/ui/error-boundary.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "FileUpload",
+      "description": "Dashed drop well over react-dropzone plus an upload list: accept map, max size and max count enforced before the caller sees a File; rows show progress, done or failed with retry.",
+      "dependencies": ["react-dropzone", "lucide-react"],
+      "registryDependencies": ["cn", "button", "progress"],
+      "files": [
+        {
+          "source": "src/components/ui/file-upload.tsx",
+          "target": "components/ui/file-upload.tsx",
           "type": "registry:ui"
         }
       ]
@@ -305,6 +335,21 @@
       ]
     },
     {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Determinate progress bar split into a filled run and a remainder, each collapsing to a pip at its own extreme. Indeterminate via value={null}.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["cn", "ui-styles"],
+      "files": [
+        {
+          "source": "src/components/ui/progress.tsx",
+          "target": "components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "resizable",
       "type": "registry:ui",
       "title": "Resizable",
@@ -375,6 +420,21 @@
         {
           "source": "src/components/ui/skeleton.tsx",
           "target": "components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Single-value slider on the progress anatomy: filled run, capsule thumb centred in the gap, pip at each end. Scalar value, not an array.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["cn", "ui-styles"],
+      "files": [
+        {
+          "source": "src/components/ui/slider.tsx",
+          "target": "components/ui/slider.tsx",
           "type": "registry:ui"
         }
       ]

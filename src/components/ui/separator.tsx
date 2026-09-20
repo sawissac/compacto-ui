@@ -29,7 +29,11 @@ function Separator({
       decorative={decorative}
       orientation={orientation}
       className={cn(
-        "shrink-0 bg-app-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        // Radix marks the rule with data-orientation="…", so the variants must
+        // read that attribute's value. A bare `data-horizontal:` looks for an
+        // attribute of that name, which never exists, and the rule renders at
+        // zero size.
+        "shrink-0 bg-app-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:self-stretch",
         className,
       )}
       {...props}

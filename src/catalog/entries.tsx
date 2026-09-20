@@ -23,8 +23,15 @@ import {
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
-import { Calendar } from "@/components/ui/calendar";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
+import {
+  Calendar,
+  getCalendarTime,
+  setCalendarTime,
+} from "@/components/ui/calendar";
 import {
   Command,
   CommandEmpty,
@@ -35,6 +42,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { DataTable, dataTableColumnHelper } from "@/components/ui/data-table";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
   DialogBody,
@@ -54,6 +62,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
+import {
+  FileUpload,
+  type FileUploadEntry,
+  type FileUploadRejection,
+} from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { OptionGrid } from "@/components/ui/option-grid";
 import { OptionList } from "@/components/ui/option-list";
@@ -66,6 +79,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Progress } from "@/components/ui/progress";
 import {
   ResizableGroup,
   ResizableHandle,
@@ -98,8 +112,13 @@ import {
   SidebarTitle,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { ColorThemeKey } from "@/lib/color-themes";
 
 export type Entry = {
@@ -157,7 +176,13 @@ const REQUEST_COLUMNS = requestColumns.columns([
 
 const REQUEST_ROWS: RequestRow[] = Array.from({ length: 5000 }, (_, i) => {
   const methods = ["GET", "POST", "PUT", "DELETE"];
-  const paths = ["/users", "/invoices", "/tokens/refresh", "/webhooks", "/exports"];
+  const paths = [
+    "/users",
+    "/invoices",
+    "/tokens/refresh",
+    "/webhooks",
+    "/exports",
+  ];
   const statuses = [200, 200, 200, 201, 204, 400, 404, 500];
   return {
     id: `req_${i.toString().padStart(4, "0")}`,
@@ -167,6 +192,30 @@ const REQUEST_ROWS: RequestRow[] = Array.from({ length: 5000 }, (_, i) => {
     ms: 12 + ((i * 37) % 1900),
   };
 });
+
+const MB = 1024 * 1024;
+
+/** Seed rows for the FileUpload preview: one of each status. */
+const UPLOAD_SEED: FileUploadEntry[] = [
+  {
+    id: "diamonds",
+    name: "Diamonds.xls",
+    size: 18.2 * MB,
+    status: "uploading",
+    progress: 60,
+    secondsLeft: 24,
+  },
+  {
+    id: "params",
+    name: "Stone Parameter.csv",
+    size: 5.3 * MB,
+    status: "uploading",
+    progress: 42,
+    secondsLeft: 60,
+  },
+  { id: "done", name: "Diamonds.xls", size: 10.5 * MB, status: "uploaded" },
+  { id: "failed", name: "Diamonds.xls", size: 9.1 * MB, status: "failed" },
+];
 
 export const ENTRIES: Entry[] = [
   {
@@ -230,6 +279,103 @@ export const ENTRIES: Entry[] = [
         </ButtonGroup>
       </div>
     ),
+  },
+  {
+    slug: "file-upload",
+    name: "FileUpload",
+    blurb:
+      "Dashed drop well and an upload list; accept, size and count enforced before you see a File.",
+    peer: "react-dropzone",
+    Preview: function FileUploadPreview() {
+      const [files, setFiles] = React.useState<FileUploadEntry[]>(UPLOAD_SEED);
+      const [rejected, setRejected] = React.useState<string>();
+
+      // Fake transport: every uploading row gains a few percent per tick,
+      // finishes at 100, and the seconds-left readout counts down with it.
+      React.useEffect(() => {
+        if (!files.some((f) => f.status === "uploading")) {
+          return;
+        }
+        const id = window.setInterval(() => {
+          setFiles((prev) =>
+            prev.map((f) => {
+              if (f.status !== "uploading") {
+                return f;
+              }
+              const progress = Math.min(100, (f.progress ?? 0) + 4);
+              return progress >= 100
+                ? { ...f, status: "uploaded", progress: 100, secondsLeft: 0 }
+                : {
+                    ...f,
+                    progress,
+                    secondsLeft: Math.max(0, (f.secondsLeft ?? 0) - 1),
+                  };
+            }),
+          );
+        }, 600);
+        return () => window.clearInterval(id);
+      }, [files]);
+
+      const add = (picked: File[]) => {
+        setRejected(undefined);
+        setFiles((prev) => [
+          ...prev,
+          ...picked.map<FileUploadEntry>((file, i) => ({
+            id: `${Date.now()}-${i}`,
+            name: file.name,
+            size: file.size,
+            status: "uploading",
+            progress: 0,
+            secondsLeft: Math.ceil(file.size / MB) + 5,
+          })),
+        ]);
+      };
+
+      const reject = (rejections: FileUploadRejection[]) => {
+        setRejected(
+          rejections
+            .map((r) => `${r.file.name}: ${r.errors[0]?.message}`)
+            .join(", "),
+        );
+      };
+
+      return (
+        <div className="flex max-w-md flex-col gap-2">
+          <FileUpload
+            accept={{
+              "text/csv": [".csv"],
+              "application/vnd.ms-excel": [".xls"],
+            }}
+            maxSize={20 * MB}
+            files={files}
+            onFilesAdded={add}
+            onFilesRejected={reject}
+            onRemove={(entry) =>
+              setFiles((prev) => prev.filter((f) => f.id !== entry.id))
+            }
+            onRetry={(entry) =>
+              setFiles((prev) =>
+                prev.map((f) =>
+                  f.id === entry.id
+                    ? {
+                        ...f,
+                        status: "uploading",
+                        progress: 0,
+                        secondsLeft: 12,
+                      }
+                    : f,
+                ),
+              )
+            }
+          />
+          {rejected && (
+            <p className="font-description text-[11px] text-app-error">
+              Rejected — {rejected}
+            </p>
+          )}
+        </div>
+      );
+    },
   },
   {
     slug: "input",
@@ -595,27 +741,76 @@ export const ENTRIES: Entry[] = [
     ),
   },
   {
+    slug: "date-picker",
+    name: "DatePicker",
+    blurb:
+      "Field-shaped trigger that opens the calendar in a popover. One Date in and out.",
+    peer: "react-day-picker",
+    Preview: function DatePickerPreview() {
+      const [day, setDay] = React.useState<Date>();
+      const [when, setWhen] = React.useState<Date>();
+      const [at, setAt] = React.useState<Date>();
+      return (
+        <div className="flex flex-wrap items-center gap-3">
+          <DatePicker value={day} onValueChange={setDay} />
+          <DatePicker
+            granularity="time"
+            value={at}
+            onValueChange={setAt}
+            calendarProps={{ timeStart: "08:00", timeEnd: "18:00" }}
+          />
+          <DatePicker
+            granularity="datetime"
+            value={when}
+            onValueChange={setWhen}
+            calendarProps={{ timeStart: "08:00", timeEnd: "18:00" }}
+          />
+        </div>
+      );
+    },
+  },
+  {
     slug: "calendar",
     name: "Calendar",
-    blurb: "Month grid; selected day is a solid accent block, today a ring.",
+    blurb:
+      "Month grid, slot column, or both — date, time and datetime pickers.",
     peer: "react-day-picker",
     Preview: function CalendarPreview() {
-      const [date, setDate] = React.useState<Date | undefined>(new Date());
+      // Seeded on a slot boundary: a time that is not one of the slots leaves
+      // the column with nothing selected, and `new Date()` almost never is one.
+      const [when, setWhen] = React.useState<Date | undefined>(
+        setCalendarTime(new Date(), "10:00"),
+      );
       return (
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          className="rounded-lg border border-app-border-mid"
-        />
+        <div className="flex flex-wrap items-start gap-3">
+          <Calendar
+            granularity="datetime"
+            mode="single"
+            selected={when}
+            onSelect={(day) =>
+              setWhen(setCalendarTime(day, getCalendarTime(when)))
+            }
+            time={getCalendarTime(when)}
+            onTimeChange={(next) => setWhen(setCalendarTime(when, next))}
+            timeStart="08:00"
+            timeEnd="18:00"
+            className="rounded-lg border border-app-border-mid"
+          />
+          <Calendar
+            granularity="time"
+            defaultTime="09:30"
+            timeStart="08:00"
+            timeEnd="18:00"
+            className="rounded-lg border border-app-border-mid"
+          />
+        </div>
       );
     },
   },
   {
     slug: "data-table",
     name: "DataTable",
-    blurb:
-      "Sortable, row-virtualized table — 5,000 rows here, ~20 in the DOM.",
+    blurb: "Sortable, row-virtualized table — 5,000 rows here, ~20 in the DOM.",
     peer: "@tanstack/react-table, @tanstack/react-virtual",
     Preview: function DataTablePreview() {
       return (
@@ -760,6 +955,45 @@ export const ENTRIES: Entry[] = [
               <span className="font-mono text-[11px] text-app-dim">{open}</span>
             </div>
           </div>
+        </div>
+      );
+    },
+  },
+  {
+    slug: "progress",
+    name: "Progress",
+    blurb:
+      "Split bar — filled run, gap, remainder; each end collapses to a pip.",
+    Preview: () => (
+      <div className="flex max-w-sm flex-col gap-4">
+        <Progress value={75} label="Descriptions" />
+        <Progress value={100} label="Descriptions" />
+        <Progress value={0} label="Descriptions" />
+        <Progress value={40} size="sm" />
+        <Progress value={null} />
+      </div>
+    ),
+  },
+  {
+    slug: "slider",
+    name: "Slider",
+    blurb: "Scalar slider on the progress anatomy; the thumb sits in the gap.",
+    Preview: function SliderPreview() {
+      const [width, setWidth] = React.useState(75);
+      const [zoom, setZoom] = React.useState(100);
+      return (
+        <div className="flex max-w-sm flex-col gap-4">
+          <Slider label="Descriptions" value={width} onValueChange={setWidth} />
+          <Slider label="Descriptions" value={zoom} onValueChange={setZoom} />
+          <Slider
+            size="sm"
+            label="Temperature"
+            min={0}
+            max={2}
+            step={0.1}
+            defaultValue={0.7}
+            formatValue={(v) => v.toFixed(1)}
+          />
         </div>
       );
     },

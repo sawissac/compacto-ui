@@ -14,21 +14,27 @@ Derivation applies only where a primitive renders a node the caller has no
 other way to reach. The base is read from `props["data-testid"]`; **when the
 caller supplies no base, nothing is derived** — we never invent ids.
 
-| Component       | Derived id                                    | Node                                            |
-| --------------- | --------------------------------------------- | ----------------------------------------------- |
-| `Input`         | `${base}-clear-button`                        | the inline clear X                              |
-| `DialogHeader`  | `${base}-close-button`                        | the title-row close X                           |
-| `DialogFooter`  | `${base}-close-button`                        | the footer Close button, when `showCloseButton` |
-| `ErrorBoundary` | `${base}-error-fallback`                      | the fallback root                               |
-| `ErrorBoundary` | `${base}-retry-button`                        | the retry button                                |
-| `Calendar`      | `${base}-day-<yyyy-mm-dd>`                    | each day button                                 |
-| `Calendar`      | `${base}-prev-button` / `${base}-next-button` | month navigation                                |
-| `OptionGrid`    | `${base}-<value>`                             | each card                                       |
-| `OptionList`    | `${base}-<value>`                             | each row                                        |
-| `OptionPalette` | `${base}-<hue>`                               | each hue's inner `OptionGrid`                   |
-| `OptionPalette` | `${base}-<hue>-<theme key>`                   | each palette card (via `OptionGrid`)            |
-| `DataTable`     | `${base}-header-<columnId>`                   | each header cell                                |
-| `DataTable`     | `${base}-row-<rowId>`                         | each rendered row (only rows in view exist)     |
+| Component        | Derived id                                       | Node                                                             |
+| ---------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
+| `Input`          | `${base}-clear-button`                           | the inline clear X                                               |
+| `DialogHeader`   | `${base}-close-button`                           | the title-row close X                                            |
+| `DialogFooter`   | `${base}-close-button`                           | the footer Close button, when `showCloseButton`                  |
+| `ErrorBoundary`  | `${base}-error-fallback`                         | the fallback root                                                |
+| `ErrorBoundary`  | `${base}-retry-button`                           | the retry button                                                 |
+| `Calendar`       | `${base}-day-<yyyy-mm-dd>`                       | each day button                                                  |
+| `Calendar`       | `${base}-prev-button` / `${base}-next-button`    | month navigation                                                 |
+| `Calendar`       | `${base}-time-<HH:mm>`                           | each time slot, under `granularity` time/datetime                |
+| `DatePicker`     | `${base}-calendar`                               | the calendar in the popover; its days and slots derive from that |
+| `Slider`         | `${base}-thumb`                                  | the drag handle                                                  |
+| `FileUpload`     | `${base}-dropzone` / `${base}-dropzone-input`    | the drop well, and the hidden file input inside it               |
+| `FileUpload`     | `${base}-item-<entry.id>`                        | each row (a `FileUploadItem`)                                    |
+| `FileUploadItem` | `${base}-remove-button` / `${base}-retry-button` | the row's trash and retry buttons                                |
+| `OptionGrid`     | `${base}-<value>`                                | each card                                                        |
+| `OptionList`     | `${base}-<value>`                                | each row                                                         |
+| `OptionPalette`  | `${base}-<hue>`                                  | each hue's inner `OptionGrid`                                    |
+| `OptionPalette`  | `${base}-<hue>-<theme key>`                      | each palette card (via `OptionGrid`)                             |
+| `DataTable`      | `${base}-header-<columnId>`                      | each header cell                                                 |
+| `DataTable`      | `${base}-row-<rowId>`                            | each rendered row (only rows in view exist)                      |
 
 `Input`'s `-clear-button` suffix is deliberately byte-identical to the contract
 bulky-api already documents in its own registry, so that app's existing ids
@@ -37,7 +43,8 @@ keep resolving after it migrates to the package.
 ### No derivation
 
 `Select`, `Tabs`, `Popover`, `DropdownMenu`, `Tooltip`, `Command`,
-`ButtonGroup`, `Dialog` (root), `Button`, `Separator`, `Skeleton`, `Sidebar`
+`ButtonGroup`, `Dialog` (root), `Button`, `Progress`, `Separator`, `Skeleton`,
+`Sidebar`
 (every part).
 
 Each part of these is its own exported component, so the caller already owns

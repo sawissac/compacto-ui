@@ -97,6 +97,18 @@
   }
 }
 
+/* Indeterminate progress. A segment sweeps the channel rather than pulsing in
+   place, so "working, length unknown" never reads as "stalled at 40%". Owned
+   here for the same reason as the fade keyframes: zero CSS peer dependencies. */
+@keyframes compacto-progress-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(350%);
+  }
+}
+
 /* Alias kept so class strings ported from the apps stay byte-identical during
    migration. Scheduled for removal once both consumers are on the package. */
 @keyframes fadeUp {

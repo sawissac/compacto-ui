@@ -68,34 +68,38 @@ the copies resolve without edits.
 
 Resolve top-down; `cn` is a dependency of nearly everything and is written once.
 
-| Item               | Type      | Registry deps                       | npm deps                                                           |
-| ------------------ | --------- | ----------------------------------- | ------------------------------------------------------------------ |
-| `cn`               | lib       | —                                   | `clsx`, `tailwind-merge`                                           |
-| `ui-styles`        | lib       | `cn`                                | `class-variance-authority`                                         |
-| `color-themes`     | lib       | —                                   | —                                                                  |
-| `styles`           | file      | —                                   | —                                                                  |
-| `compat-shadcn`    | file      | —                                   | —                                                                  |
-| `palette-provider` | component | `color-themes`                      | —                                                                  |
-| `button`           | ui        | `cn`                                | `class-variance-authority`, `radix-ui`                             |
-| `button-group`     | ui        | `cn`, `separator`                   | `class-variance-authority`                                         |
-| `calendar`         | ui        | `cn`, `button`                      | `react-day-picker`, `date-fns`, `lucide-react`                     |
-| `command`          | ui        | `cn`, `dialog`                      | `cmdk`, `lucide-react`                                             |
-| `data-table`       | ui        | `cn`                                | `@tanstack/react-table`, `@tanstack/react-virtual`, `lucide-react` |
-| `dialog`           | ui        | `cn`, `button`                      | `radix-ui`, `lucide-react`                                         |
-| `dropdown-menu`    | ui        | `cn`                                | `radix-ui`, `lucide-react`                                         |
-| `error-boundary`   | ui        | `cn`                                | `lucide-react`                                                     |
-| `input`            | ui        | `cn`, `ui-styles`                   | `lucide-react`                                                     |
-| `option-grid`      | ui        | `cn`                                | `lucide-react`                                                     |
-| `option-list`      | ui        | `cn`                                | `lucide-react`                                                     |
-| `option-palette`   | ui        | `cn`, `color-themes`, `option-grid` | —                                                                  |
-| `popover`          | ui        | `cn`                                | `radix-ui`                                                         |
-| `resizable`        | ui        | `cn`                                | `react-resizable-panels`                                           |
-| `select`           | ui        | `cn`                                | `radix-ui`, `lucide-react`                                         |
-| `separator`        | ui        | `cn`                                | `radix-ui`                                                         |
-| `sidebar`          | ui        | `cn`, `ui-styles`                   | `class-variance-authority`, `radix-ui`                             |
-| `skeleton`         | ui        | `cn`                                | —                                                                  |
-| `tabs`             | ui        | `cn`                                | `class-variance-authority`, `radix-ui`                             |
-| `tooltip`          | ui        | `cn`                                | `radix-ui`                                                         |
+| Item               | Type      | Registry deps                         | npm deps                                                           |
+| ------------------ | --------- | ------------------------------------- | ------------------------------------------------------------------ |
+| `cn`               | lib       | —                                     | `clsx`, `tailwind-merge`                                           |
+| `ui-styles`        | lib       | `cn`                                  | `class-variance-authority`                                         |
+| `color-themes`     | lib       | —                                     | —                                                                  |
+| `styles`           | file      | —                                     | —                                                                  |
+| `compat-shadcn`    | file      | —                                     | —                                                                  |
+| `palette-provider` | component | `color-themes`                        | —                                                                  |
+| `button`           | ui        | `cn`                                  | `class-variance-authority`, `radix-ui`                             |
+| `button-group`     | ui        | `cn`, `separator`                     | `class-variance-authority`                                         |
+| `calendar`         | ui        | `cn`, `button`                        | `react-day-picker`, `date-fns`, `lucide-react`                     |
+| `command`          | ui        | `cn`, `dialog`                        | `cmdk`, `lucide-react`                                             |
+| `data-table`       | ui        | `cn`                                  | `@tanstack/react-table`, `@tanstack/react-virtual`, `lucide-react` |
+| `date-picker`      | ui        | `cn`, `button`, `calendar`, `popover` | `lucide-react`                                                     |
+| `dialog`           | ui        | `cn`, `button`                        | `radix-ui`, `lucide-react`                                         |
+| `dropdown-menu`    | ui        | `cn`                                  | `radix-ui`, `lucide-react`                                         |
+| `error-boundary`   | ui        | `cn`                                  | `lucide-react`                                                     |
+| `file-upload`      | ui        | `cn`, `button`, `progress`            | `react-dropzone`, `lucide-react`                                   |
+| `input`            | ui        | `cn`, `ui-styles`                     | `lucide-react`                                                     |
+| `option-grid`      | ui        | `cn`                                  | `lucide-react`                                                     |
+| `option-list`      | ui        | `cn`                                  | `lucide-react`                                                     |
+| `option-palette`   | ui        | `cn`, `color-themes`, `option-grid`   | —                                                                  |
+| `popover`          | ui        | `cn`                                  | `radix-ui`                                                         |
+| `progress`         | ui        | `cn`, `ui-styles`                     | `class-variance-authority`, `radix-ui`                             |
+| `resizable`        | ui        | `cn`                                  | `react-resizable-panels`                                           |
+| `select`           | ui        | `cn`                                  | `radix-ui`, `lucide-react`                                         |
+| `separator`        | ui        | `cn`                                  | `radix-ui`                                                         |
+| `sidebar`          | ui        | `cn`, `ui-styles`                     | `class-variance-authority`, `radix-ui`                             |
+| `skeleton`         | ui        | `cn`                                  | —                                                                  |
+| `slider`           | ui        | `cn`, `ui-styles`                     | `class-variance-authority`, `radix-ui`                             |
+| `tabs`             | ui        | `cn`                                  | `class-variance-authority`, `radix-ui`                             |
+| `tooltip`          | ui        | `cn`                                  | `radix-ui`                                                         |
 
 This table is derived from `registry.json`; if they ever disagree, the JSON
 wins.
@@ -183,7 +187,17 @@ markup from scratch and do not add a second library for the same job:
   (a colour, a texture, a layout thumbnail).
 - **`option-palette`** — the `--app-*` theme picker itself.
 - **`option-list`** — rows with icon + label + one-line description + check.
+- **`date-picker`** — a date, time or datetime on a form: the trigger button,
+  the popover and the calendar wired to one `Date`. Never a bare `Calendar`
+  dropped inline where a field belongs.
 - **`command`** — any searchable list or command palette (`CommandDialog`).
+- **`file-upload`** — any "choose or drop files" surface with a list of what
+  was picked. `accept` and `maxSize` are enforced by the component; the
+  upload itself is yours — mirror its state into `files`.
+- **`progress`** — any determinate progress readout, and the indeterminate
+  one via `value={null}`. Never a hand-rolled `<div>` with a width style.
+- **`slider`** — any single-value numeric range control (a temperature, a
+  width, a zoom). It is scalar: `onValueChange` gives you a number.
 - **`sidebar`** — an app rail/sidebar shell, with optional `texture`.
 - **`error-boundary`** — wrap any subtree that fetches or renders untrusted
   data; it has the flat fallback and a retry button already.
@@ -201,6 +215,10 @@ markup from scratch and do not add a second library for the same job:
 - Keep `columns` and `data` referentially stable. Rows are virtualised over the
   _sorted_ model; give it a bounded height (`height` prop or a `className`
   like `h-full` inside a constrained parent).
+- Columns are resizable by default (drag the hairline at a header's right
+  edge; double-click resets). Persist widths through `onColumnSizingChange`
+  and hand them back as `defaultColumnSizing`; `resizable={false}` turns the
+  handles off.
 - Its `dependencies` list both TanStack packages — install them with the copy.
 
 ## Per-component facts
