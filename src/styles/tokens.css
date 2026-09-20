@@ -3,7 +3,9 @@
  * Plain custom properties, no Tailwind at-rules, so this file is importable by
  * anything. These are PRE-THEME DEFAULTS: they keep the app-* utilities
  * meaningful during SSR and before hydration, and are overwritten wholesale at
- * runtime by appThemeCssVars() from "@/lib/color-themes".
+ * runtime by appThemeCssVars() from "@/lib/color-themes". The :root values
+ * mirror the "ocean-light" theme — PaletteProvider's default — so the first
+ * painted frame already matches what hydration applies.
  *
  * The .dark block exists for that same pre-hydration window and for
  * third-party CSS that keys off the class (Monaco, KaTeX, shiki). Component
@@ -28,35 +30,35 @@
   --app-texture-alpha: 0.05;
 
   /* --- Surfaces --- */
-  --app-bg: #f8fafc;
+  --app-bg: #eaf3fb;
   --app-panel: #ffffff;
-  --app-sidebar: #ffffff;
-  --app-hover: rgba(15, 23, 42, 0.04);
-  --app-selected: rgba(20, 20, 20, 0.07);
+  --app-sidebar: #dceaf7;
+  --app-hover: rgba(12, 40, 70, 0.05);
+  --app-selected: rgba(2, 132, 199, 0.12);
 
   /* --- Lines --- */
-  --app-border: #e2e8f0;
-  --app-border-mid: #cbd5e1;
-  --app-border-accent: rgba(20, 20, 20, 0.25);
+  --app-border: rgba(12, 40, 70, 0.12);
+  --app-border-mid: rgba(12, 40, 70, 0.22);
+  --app-border-accent: rgba(2, 132, 199, 0.45);
 
   /* --- Accent (single voice) --- */
-  --app-accent: #141414;
-  --app-accent-dim: rgba(20, 20, 20, 0.55);
-  --app-accent-faint: rgba(20, 20, 20, 0.08);
+  --app-accent: #0369a1;
+  --app-accent-dim: #2f8fc0;
+  --app-accent-faint: rgba(3, 105, 161, 0.1);
 
   /* --- Type --- */
-  --app-text: #334155;
-  --app-bright: #0f172a;
-  --app-dim: #64748b;
+  --app-text: #14425e;
+  --app-bright: #08283a;
+  --app-dim: #4c7690;
 
   /* --- Code surfaces --- */
   --app-editor: #ffffff;
-  --app-gutter: #f8fafc;
+  --app-gutter: #e2eef9;
 
   /* --- Status --- */
-  --app-success: #10b981;
-  --app-warn: #f59e0b;
-  --app-error: #ef4444;
+  --app-success: #15803d;
+  --app-warn: #b45309;
+  --app-error: #b91c1c;
 
   /* Foreground for solid accent blocks. Stays legible on bright dark-theme
      accents and dark light-theme accents alike. */

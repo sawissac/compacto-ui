@@ -1,7 +1,6 @@
-# compacto-ui
+<img src="public/web-app-manifest-192x192.png" alt="" width="72" height="72" />
 
-Flat, token-driven React primitives shared by [waux-ai-studio](https://github.com/sawissac/waux-ai-studio)
-and [bulky-api](https://github.com/sawissac/bulky-api).
+# compacto-ui
 
 Both apps grew the same design system by copying files between repos, and the
 copies had started to drift. This repo is the single source of truth — but it

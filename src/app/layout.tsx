@@ -24,6 +24,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "compacto-ui",
   description: "Flat, token-driven React primitives.",
+  // Emits <meta name="apple-mobile-web-app-title" content="cui" /> — the name
+  // iOS uses for the home-screen icon when the site is saved to the dock.
+  appleWebApp: {
+    title: "cui",
+  },
 };
 
 export default function RootLayout({

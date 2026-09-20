@@ -30,7 +30,7 @@ const Ctx = React.createContext<PaletteContext | null>(null);
  * typically in the root layout — and read it with {@link usePalette}.
  *
  * @param props.defaultPalette - The palette active on first render. Defaults
- *   to `"light"` (Chocolate), the one `tokens.css` already approximates before
+ *   to `"ocean-light"`, the one `tokens.css` already approximates before
  *   hydration, so the first frame does not flash.
  *
  * @example
@@ -43,7 +43,7 @@ const Ctx = React.createContext<PaletteContext | null>(null);
  */
 export function PaletteProvider({
   children,
-  defaultPalette = "light",
+  defaultPalette = "ocean-light",
 }: {
   children: React.ReactNode;
   defaultPalette?: ColorThemeKey;

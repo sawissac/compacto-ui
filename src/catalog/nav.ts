@@ -7,4 +7,8 @@ export const SECTIONS = [
   { href: "/docs/skills", label: "Skills" },
   { href: "/docs/theming", label: "Theming" },
   { href: "/docs/tokens", label: "Tokens" },
+  // Not a /docs page: the gallery of every primitive, live on one screen.
+  // Listed here so the top nav and the sidebar (which the mobile menu reuses)
+  // both reach it without a second list to keep in sync.
+  { href: "/demo", label: "Demo" },
 ] as const;

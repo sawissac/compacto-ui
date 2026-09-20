@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,8 +16,16 @@ export function TopNav() {
       <div className="flex h-14 items-center gap-6 px-5">
         <Link
           href="/docs/components"
-          className="shrink-0 font-display text-[15px] font-bold tracking-[-0.01em] text-app-bright"
+          className="flex shrink-0 items-center gap-2 font-display text-[15px] font-bold tracking-[-0.01em] text-app-bright"
         >
+          <Image
+            src="/web-app-manifest-192x192.png"
+            alt=""
+            width={24}
+            height={24}
+            priority
+            className="rounded-[6px]"
+          />
           compacto-ui
         </Link>
 
